@@ -1,3 +1,6 @@
+#ifndef ATRIBUTOS_H
+#define ATRIBUTOS_H
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -18,3 +21,7 @@ char* getDataUltimaModificacao(Atributos *atributos);
 char* getDataUltimoAcesso(Atributos *atributos);
 
 char* obtemHoraAtual();
+
+
+
+#endif // ATRIBUTOS_H

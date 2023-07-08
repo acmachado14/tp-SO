@@ -1,3 +1,6 @@
+#ifndef ENTRADADIRETORIO_H
+#define ENTRADADIRETORIO_H
+
 #include "EnderecoBloco.h"
 #include "INodes.h"
 
@@ -19,3 +22,7 @@ typedef struct {
     }unionEntradaDiretorio;
     
 }EntradaDiretorio;
+
+
+
+#endif // ENTRADADIRETORIO_H

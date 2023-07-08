@@ -1,3 +1,6 @@
+#ifndef ENDERECOBLOCO_H
+#define ENDERECOBLOCO_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "Conteudo.h"
@@ -12,3 +15,7 @@ EnderecoBloco* criaEnderecoBloco();
 void inserirEnderecoBloco(EnderecoBloco *enderecoBloco, char *string, int endereco);
 
 int getEndereco(EnderecoBloco *enderecoBloco);
+
+
+
+#endif //ENDERECOBLOCO_H

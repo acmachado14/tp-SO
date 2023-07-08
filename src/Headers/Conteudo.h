@@ -1,3 +1,6 @@
+#ifndef CONTEUDO_H
+#define CONTEUDO_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -11,3 +14,7 @@ Conteudo* criaConteudo();
 void inserirConteudo(Conteudo *conteudo, char *string);
 
 char* getConteudo(Conteudo *conteudo);
+
+
+
+#endif //CONTEUDO_H

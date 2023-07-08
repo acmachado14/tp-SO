@@ -1,6 +1,9 @@
+#ifndef BLOCOINDIRETO_H
+#define BLOCOINDIRETO_H
+
 #include <stdlib.h>
 #include <stdio.h>
-//#include "EntradaDiretorio.h"
+#include "EntradaDiretorio.h"
 #include "EnderecoBloco.h"
 
 typedef enum{
@@ -15,3 +18,7 @@ typedef struct {
         EnderecoBloco *enderecoBloco;
     }unionBlocoIndireto;
 }BlocoIndireto;
+
+
+
+#endif // BLOCOINDIRETO_H

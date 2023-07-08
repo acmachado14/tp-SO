@@ -1,3 +1,6 @@
+#ifndef INODES_H
+#define INODES_H
+
 #include "Atributos.h"
 #include "Conteudo.h"
 //#include "EntradaDiretorio.h"
@@ -23,3 +26,7 @@ typedef struct {
     Atributos *atributos;
     INodeArmazena armazena;
 }INodes;
+
+
+
+#endif //INODES_H
