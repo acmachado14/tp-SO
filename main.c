@@ -1,6 +1,6 @@
 #include "src/Headers/Atributos.h"
 #include "src/Headers/BlocoConteudo.h"
-#include <unistd.h>
+//#include <unistd.h>
 
 int main(int argc, char const *argv[]){
     //src/BlocoConteudo.c
@@ -11,7 +11,7 @@ int main(int argc, char const *argv[]){
     printf("%s\n", getDataUltimaModificacao(atributos));
     printf("%s\n", getDataUltimoAcesso(atributos));
     printf("-----------\n");
-    sleep(2);
+    //sleep(2);
     setDataUltimaModificacao(&atributos);
     setDataUltimoAcesso(&atributos);
     printf("%s\n", getDataCriacao(atributos));

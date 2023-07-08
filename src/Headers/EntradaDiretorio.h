@@ -1,7 +1,6 @@
 #ifndef ENTRADADIRETORIO_H
 #define ENTRADADIRETORIO_H
 
-#include "EnderecoBloco.h"
 #include "INodes.h"
 
 typedef enum{
@@ -12,10 +11,12 @@ typedef struct {
     Tipo tipo;
     union {
          struct{
+            int enderecoINode;
             char nomeArquivo[28];
-            EnderecoBloco enderecoBloco;
+            INodes iNodes;
         }Arquivo;
         struct{
+            int enderecoINode;
             char nomeDiretorio[28];
             INodes iNodes;
         }Diretorio;

@@ -2,29 +2,27 @@
 #define INODES_H
 
 #include "Atributos.h"
-#include "Conteudo.h"
-//#include "EntradaDiretorio.h"
+#include "EntradaDiretorio.h"
 #include "BlocoIndireto.h"
-//#include "EnderecoBloco.h"
+#include "BlocoConteudo.h"
 
 typedef enum{
-	entradaDiretorio, blocoIndireto, enderecoBloco
+	entradaDiretorio, blocoIndireto, blocoConteudo
 }EnumINode;
 
 typedef struct{
     EnumINode enumINode;
     union {
-        EntradaDiretorio *entradaDiretorio;
+        EntradaDiretorio entradaDiretorio;
+        BlocoConteudo blocoConteudo;
         BlocoIndireto blocoIndireto;
-        EnderecoBloco *enderecoBloco;
     }unionINode;
 }INodeArmazena;
 
 typedef struct {
-    int enderecoINode;
     int enderecoBloco;
     Atributos *atributos;
-    INodeArmazena armazena;
+    INodeArmazena *armazena;
 }INodes;
 
 

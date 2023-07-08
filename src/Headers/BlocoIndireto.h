@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "EntradaDiretorio.h"
-#include "EnderecoBloco.h"
+#include "BlocoConteudo.h"
 
 typedef enum{
-	entradaDiretorio, enderecoBloco
+	entradaDiretorio, blocoConteudo
 }EnumBlocoIndireto;
 
 typedef struct {
@@ -15,7 +15,7 @@ typedef struct {
     EnumBlocoIndireto enumBlocoIndireto;
     union {
         EntradaDiretorio *entradaDiretorio;
-        EnderecoBloco *enderecoBloco;
+        BlocoConteudo *blocoConteudo;
     }unionBlocoIndireto;
 }BlocoIndireto;
 
