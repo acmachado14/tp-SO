@@ -19,6 +19,8 @@ typedef struct {
     }unionBlocoIndireto;
 }BlocoIndireto;
 
+BlocoIndireto criaBlocoIndireto(EnumBlocoIndireto enumBloco, int tanhoBloco, int enderecoBloco);
 
+int getEnderecoBlocoIndireto(BlocoIndireto blocoIndireto);
 
 #endif // BLOCOINDIRETO_H
