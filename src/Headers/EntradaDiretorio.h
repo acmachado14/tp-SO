@@ -1,5 +1,5 @@
 #include "EnderecoBloco.h"
-//#include "INodes.h"
+#include "INodes.h"
 
 typedef enum{
 	arquivo, diretorio

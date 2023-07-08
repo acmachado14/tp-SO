@@ -1,8 +1,8 @@
 #include "Atributos.h"
 #include "Conteudo.h"
-#include "EntradaDiretorio.h"
+//#include "EntradaDiretorio.h"
 #include "BlocoIndireto.h"
-#include "EnderecoBloco.h"
+//#include "EnderecoBloco.h"
 
 typedef enum{
 	entradaDiretorio, blocoIndireto, enderecoBloco

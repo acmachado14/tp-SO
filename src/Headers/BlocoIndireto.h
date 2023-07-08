@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "EntradaDiretorio.h"
+//#include "EntradaDiretorio.h"
 #include "EnderecoBloco.h"
 
 typedef enum{
