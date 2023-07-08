@@ -14,6 +14,9 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkTextBuffer" id="textbuffer_entradas"/>
+  <object class="GtkTextBuffer" id="textbuffer_listarArquivo"/>
+  <object class="GtkTextBuffer" id="textbuffer_saidas"/>
   <object class="GtkWindow" id="main">
     <property name="width-request">800</property>
     <property name="height-request">800</property>
@@ -240,6 +243,7 @@
                     <property name="receives-default">True</property>
                     <property name="halign">end</property>
                     <property name="margin-end">14</property>
+                    <signal name="clicked" handler="on_button_iterative_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -255,7 +259,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkTreeView">
+              <object class="GtkTreeView" id="tabela_principal">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="model">liststore1</property>
@@ -367,6 +371,7 @@
               <object class="GtkTextView" id="printArquivo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="buffer">textbuffer_listarArquivo</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -427,7 +432,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="tipoModelo">
+              <object class="GtkEntry" id="tipo_modelo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
               </object>
@@ -455,7 +460,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="nomeArquiv">
+              <object class="GtkEntry" id="nome_arquivo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="margin-bottom">7</property>
@@ -615,7 +620,6 @@
           <object class="GtkBox" id="iterativo">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">center</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel">
@@ -649,21 +653,7 @@
               <object class="GtkGrid">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <child>
-                  <object class="GtkButton" id="button_command_line">
-                    <property name="label" translatable="yes">Comando</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">True</property>
-                    <property name="margin-left">191</property>
-                    <property name="margin-top">6</property>
-                    <signal name="clicked" handler="on_button_command_line_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
+                <property name="halign">end</property>
                 <child>
                   <object class="GtkButton" id="button_pesquisar_arquivo">
                     <property name="label" translatable="yes">Pesquisar Arquivo</property>
@@ -678,51 +668,37 @@
                     <property name="top-attach">0</property>
                   </packing>
                 </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <!-- n-columns=2 n-rows=1 -->
-              <object class="GtkGrid">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkButton" id="button_command_line">
+                    <property name="label" translatable="yes">Comando</property>
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="margin-top">5</property>
-                    <property name="label" translatable="yes">Entradas</property>
-                    <attributes>
-                      <attribute name="font-desc" value="Tlwg Mono Bold 10"/>
-                      <attribute name="scale" value="2"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="margin-left">28</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
                     <property name="margin-top">6</property>
-                    <property name="label" translatable="yes">Saidas</property>
-                    <attributes>
-                      <attribute name="font-desc" value="Tlwg Mono Bold 10"/>
-                      <attribute name="scale" value="2"/>
-                    </attributes>
+                    <signal name="clicked" handler="on_button_command_line_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
                     <property name="top-attach">0</property>
                   </packing>
                 </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-top">5</property>
+                <property name="label" translatable="yes">Entradas</property>
+                <attributes>
+                  <attribute name="font-desc" value="Tlwg Mono Bold 10"/>
+                  <attribute name="scale" value="2"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -731,30 +707,11 @@
               </packing>
             </child>
             <child>
-              <!-- n-columns=2 n-rows=1 -->
-              <object class="GtkGrid">
+              <object class="GtkTextView" id="printEntradas">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <child>
-                  <object class="GtkTextView" id="printEntradas">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkTextView" id="printSaidas">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
+                <property name="can-focus">True</property>
+                <property name="left-margin">14</property>
+                <property name="buffer">textbuffer_entradas</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -763,11 +720,41 @@
               </packing>
             </child>
             <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-top">5</property>
+                <property name="label" translatable="yes">Saidas</property>
+                <attributes>
+                  <attribute name="font-desc" value="Tlwg Mono Bold 10"/>
+                  <attribute name="scale" value="2"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkTextView" id="printSaidas">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="left-margin">14</property>
+                <property name="buffer">textbuffer_saidas</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton" id="voltar_iterativo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="margin-top">6</property>
+                <property name="halign">center</property>
                 <signal name="clicked" handler="on_voltar_iterativo_clicked" swapped="no"/>
                 <child>
                   <object class="GtkImage">
@@ -780,8 +767,8 @@
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">5</property>
+                <property name="fill">True</property>
+                <property name="position">7</property>
               </packing>
             </child>
           </object>

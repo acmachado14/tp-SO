@@ -34,9 +34,11 @@ int main(int argc, char *argv[]){
     widgets->bt_iterative = GTK_WIDGET(gtk_builder_get_object(builder, "button_iterative"));
     widgets->bt_voltar_principal = GTK_WIDGET(gtk_builder_get_object(builder, "voltar_principal"));
     widgets->liststore1 = GTK_LIST_STORE(gtk_builder_get_object(builder, "liststore1"));
+    widgets->treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tabela_principal"));
 
     // Tela listarArquivo
     widgets->print_arquivo = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "print_arquivo"));
+    widgets->buffer_arquivo = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "textbuffer_listarArquivo"));
     widgets->bt_voltar_listar = GTK_WIDGET(gtk_builder_get_object(builder, "voltar_listar"));
 
     // Tela criar
@@ -57,11 +59,35 @@ int main(int argc, char *argv[]){
     widgets->bt_voltar_iterativo = GTK_WIDGET(gtk_builder_get_object(builder, "voltar_iterativo"));
     widgets->print_entradas = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "print_entradas"));
     widgets->print_saidas = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "print_saidas"));
+    widgets->buffer_entradas = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "textbuffer_entradas"));
+    widgets->buffer_saidas = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "textbuffer_saidas"));
 
     if (widgets->window == NULL){
         g_critical("Falha ao obter o objeto window do arquivo glade");
         return 1;
     }
+
+    Arquivo arquivo1 = {
+        .nome = "arquivo1.txt",
+        .dataCriacao = "2023-06-01",
+        .dataModificacao = "2023-06-02",
+        .dataAcesso = "2023-06-03"
+    };
+
+    Arquivo arquivo2 = {
+        .nome = "arquivo2.txt",
+        .dataCriacao = "2023-06-04",
+        .dataModificacao = "2023-06-05",
+        .dataAcesso = "2023-06-06"
+    };
+
+    GtkTreeIter iter;
+    gtk_list_store_append(widgets->liststore1, &iter);
+    gtk_list_store_set(widgets->liststore1, &iter, 0, arquivo1.nome, 1, arquivo1.dataCriacao, 2, arquivo1.dataModificacao, 3, arquivo1.dataAcesso, -1);
+
+    gtk_list_store_append(widgets->liststore1, &iter);
+    gtk_list_store_set(widgets->liststore1, &iter, 0, arquivo2.nome, 1, arquivo2.dataCriacao, 2, arquivo2.dataModificacao, 3, arquivo2.dataAcesso, -1);
+
 
     // Conseguir o endereco do botao e dos sinais
     gtk_builder_connect_signals(builder, widgets);

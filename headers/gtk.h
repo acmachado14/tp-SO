@@ -1,10 +1,15 @@
 #include <gtk/gtk.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-typedef struct dadosGTK{
-    const char *path_atual;
-    char *pesq_relevancia;
-    int verif_patricia;
-}dadosGTK;
+typedef struct {
+    gchar *nome;
+    gchar *dataCriacao;
+    gchar *dataModificacao;
+    gchar *dataAcesso;
+} Arquivo;
 
 typedef struct{
     GtkStack *stack;
@@ -23,9 +28,11 @@ typedef struct{
     GtkWidget *bt_iterative;
     GtkWidget *bt_voltar_principal;
     GtkListStore *liststore1;
+    GtkTreeView *treeview;
 
     // Tela listarArquivo
     GtkTextView *print_arquivo;
+    GtkTextBuffer *buffer_arquivo;
     GtkWidget *bt_voltar_listar;
 
     // Tela criar
@@ -46,8 +53,8 @@ typedef struct{
     GtkWidget *bt_voltar_iterativo;
     GtkTextView *print_entradas;
     GtkTextView *print_saidas;
-
-    dadosGTK *interno;
+    GtkTextBuffer *buffer_entradas;
+    GtkTextBuffer *buffer_saidas;
 } AppWidgets;
 
 void on_button_iniciar_clicked(GtkWidget *bt_inciar, void *data);
@@ -56,8 +63,28 @@ void on_button_create_clicked(GtkWidget *bt_criar, void *data);
 
 void on_voltar_principal_clicked(GtkWidget *bt_criar, void *data);
 
-void on_button_edit_clicked(GtkWidget *widget, void *data);
+void on_button_edit_clicked(GtkWidget *bt_edit, void *data);
 
-void on_button_list_clicked(GtkWidget *widget, void *data);
+void on_button_list_clicked(GtkWidget *bt_list, void *data);
 
-void on_main_destroy(GtkWidget *widget, void *data);
+void on_main_destroy(GtkWidget *bt_close, void *data);
+
+void on_voltar_listar_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_button_voltar_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_voltar_editar_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_voltar_iterativo_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_button_iterative_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_button_salvar_clicked(GtkWidget *bt_confirma, void *data);
+
+void on_button_salvar_editar_clicked(GtkWidget *bt_confirma, void *data);
+
+void on_button_pesquisar_arquivo_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_button_command_line_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_button_delete_clicked(GtkWidget *bt_voltar, void *data);
