@@ -5,7 +5,7 @@ char *paginaAnterior;
 char* obterDataAtual() {
     time_t rawtime;
     struct tm* timeinfo;
-    char* data = (char*)malloc(sizeof(char) * 11);  // 10 caracteres para a data + 1 caractere nulo de terminação
+    char* data = (char*)malloc(sizeof(char) * 20);  // 19 caracteres para a data e hora + 1 caractere nulo de terminação
 
     if (data == NULL) {
         // Tratar o erro de alocação de memória
@@ -16,8 +16,8 @@ char* obterDataAtual() {
     time(&rawtime);
     timeinfo = localtime(&rawtime);
 
-    // Formatar a data no formato dd-mm-yyyy
-    strftime(data, 11, "%d-%m-%Y", timeinfo);
+    // Formatar a data e hora no formato dd-mm-yyyy HH:MM:SS
+    strftime(data, 20, "%d-%m-%Y %H:%M:%S", timeinfo);
 
     return data;
 }
@@ -282,7 +282,7 @@ void on_button_salvar_clicked(GtkWidget *bt_confirma, void *data) {
         .nome = novaString,
         .dataCriacao = obterDataAtual(),
         .dataModificacao = obterDataAtual(),
-        .dataAcesso = "null"
+        .dataAcesso = obterDataAtual()
     };
 
     GtkTreeIter iter;

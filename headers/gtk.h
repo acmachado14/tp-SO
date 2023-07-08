@@ -96,3 +96,9 @@ void on_button_pesquisar_arquivo_clicked(GtkWidget *bt_voltar, void *data);
 void on_button_command_line_clicked(GtkWidget *bt_voltar, void *data);
 
 void on_button_delete_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_button_salvar_dir_clicked(GtkWidget *bt_confirma, void *data);
+
+void on_voltar_criar_dir_clicked(GtkWidget *bt_voltar, void *data);
+
+void on_button_create_dir_clicked(GtkWidget *bt_confirma, void *data);
