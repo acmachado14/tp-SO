@@ -14,6 +14,7 @@ BlocoConteudo criaBlocoConteudo(char *string, int endereco, int tamanhoBloco);
 
 int getEndereco(BlocoConteudo blocoConteudo);
 
+char* getConteudoBloco(BlocoConteudo blocoConteudo);
 
 
 #endif //BLOCOCONTEUDO_H

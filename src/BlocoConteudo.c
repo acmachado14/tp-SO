@@ -11,3 +11,8 @@ BlocoConteudo criaBlocoConteudo(char *string, int endereco, int tamanhoBloco){
 int getEndereco(BlocoConteudo blocoConteudo){
     return blocoConteudo.endereco;
 }
+
+
+char* getConteudoBloco(BlocoConteudo blocoConteudo){
+    return blocoConteudo.conteudo;
+}

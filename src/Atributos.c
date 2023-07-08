@@ -14,6 +14,9 @@ char* obtemHoraAtual(){
 
 Atributos criaAtributo(){
     Atributos atributos;
+    atributos.dataCriacao = (char*)malloc(19 * sizeof(char));
+    atributos.dataUltimaModificacao = (char*)malloc(19 * sizeof(char));
+    atributos.dataUltimoAcesso = (char*)malloc(19 * sizeof(char));
     setDataCriacao(&atributos);
     setDataUltimaModificacao(&atributos);
     setDataUltimoAcesso(&atributos);
@@ -35,14 +38,14 @@ void setDataUltimoAcesso(Atributos *atributos){
     strcpy(atributos->dataUltimoAcesso, dataUltimoAcesso);
 }
 
-char* getDataCriacao(Atributos *atributos){
-    return atributos->dataCriacao;
+char* getDataCriacao(Atributos atributos){
+    return atributos.dataCriacao;
 }
 
-char* getDataUltimaModificacao(Atributos *atributos){
-    return atributos->dataUltimaModificacao;
+char* getDataUltimaModificacao(Atributos atributos){
+    return atributos.dataUltimaModificacao;
 }
 
-char* getDataUltimoAcesso(Atributos *atributos){
-    return atributos->dataUltimoAcesso;
+char* getDataUltimoAcesso(Atributos atributos){
+    return atributos.dataUltimoAcesso;
 }
