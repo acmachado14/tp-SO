@@ -9,7 +9,9 @@ typedef struct {
     gchar *dataCriacao;
     gchar *dataModificacao;
     gchar *dataAcesso;
-} Arquivo;
+    gchar *conteudo;
+    int tipo;
+} Modelo;
 
 typedef struct{
     GtkStack *stack;
@@ -27,6 +29,7 @@ typedef struct{
     GtkWidget *bt_delete;
     GtkWidget *bt_iterative;
     GtkWidget *bt_voltar_principal;
+    GtkWidget *bt_create_dir;
     GtkListStore *liststore1;
     GtkTreeView *treeview;
 
@@ -36,10 +39,15 @@ typedef struct{
     GtkWidget *bt_voltar_listar;
 
     // Tela criar
-    GtkWidget *entry_tipo_modelo;
+    GtkWidget *entry_conteudo;
     GtkWidget *entry_nome_arquivo;
     GtkWidget *bt_salvar;
     GtkWidget *bt_voltar;
+
+    // Tela criar diretorio
+    GtkWidget *entry_nome_dir;
+    GtkWidget *bt_salvar_dir;
+    GtkWidget *bt_voltar_dir;
 
     // Tela editar
     GtkWidget *entry_nome_edit;

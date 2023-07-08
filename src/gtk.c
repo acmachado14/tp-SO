@@ -70,7 +70,7 @@ void on_button_edit_clicked(GtkWidget *bt_edit, void *data){
         gchar *dataModificacao;
         gchar *dataAcesso;
 
-        printf("Arquivo selecionado\n");
+        printf("Modelo selecionado\n");
         // Obtendo os valores das colunas
         gtk_tree_model_get(model, &iter, 0, &nomeArquivo, 1, &dataCriacao, 2, &dataModificacao, 3, &dataAcesso, -1);
 
@@ -270,7 +270,7 @@ void on_button_salvar_clicked(GtkWidget *bt_confirma, void *data) {
     AppWidgets *widgets = (AppWidgets *)data;
 
     const char *nome = gtk_entry_get_text(GTK_ENTRY(widgets->entry_nome_arquivo));
-    const char *tipo = gtk_entry_get_text(GTK_ENTRY(widgets->entry_tipo_modelo));
+    const char *conteudo = gtk_entry_get_text(GTK_ENTRY(widgets->entry_conteudo));
 
     size_t tamanho = strlen(nome) + 1;
 
@@ -278,7 +278,7 @@ void on_button_salvar_clicked(GtkWidget *bt_confirma, void *data) {
 
     strncpy(novaString, nome, tamanho);
 
-    Arquivo arquivo = {
+    Modelo arquivo = {
         .nome = novaString,
         .dataCriacao = obterDataAtual(),
         .dataModificacao = obterDataAtual(),
@@ -289,11 +289,50 @@ void on_button_salvar_clicked(GtkWidget *bt_confirma, void *data) {
     gtk_list_store_append(widgets->liststore1, &iter);
     gtk_list_store_set(widgets->liststore1, &iter, 0, arquivo.nome, 1, arquivo.dataCriacao, 2, arquivo.dataModificacao, 3, arquivo.dataAcesso, -1);
         
-    if(strcmp(tipo, "1") == 0){ //Tipo diretorio
+    gtk_stack_set_visible_child_name(widgets->stack, "principal");
+}
 
-    }else{ //Tipo arquivo
-
-    }
+void on_button_create_dir_clicked(GtkWidget *bt_confirma, void *data) {
+    AppWidgets *widgets = (AppWidgets *)data;
     
+    //logica
+
+    paginaAnterior = "principal";
+
+    gtk_stack_set_visible_child_name(widgets->stack, "criar_dir");
+}
+
+void on_voltar_criar_dir_clicked(GtkWidget *bt_voltar, void *data){
+    AppWidgets *widgets = (AppWidgets *)data;
+    
+    //logica
+
+    gtk_stack_set_visible_child_name(widgets->stack, paginaAnterior);
+}
+
+void on_button_salvar_dir_clicked(GtkWidget *bt_confirma, void *data) {
+    AppWidgets *widgets = (AppWidgets *)data;
+
+    const char *nome = gtk_entry_get_text(GTK_ENTRY(widgets->entry_nome_dir));
+
+    size_t tamanho = strlen(nome) + 1;
+
+    char* nomeDir = (char*)malloc(tamanho * sizeof(char));
+
+    strncpy(nomeDir, nome, tamanho);
+
+    Modelo arquivo = {
+        .nome = nomeDir,
+        .dataCriacao = obterDataAtual(),
+        .dataModificacao = obterDataAtual(),
+        .dataAcesso = obterDataAtual(),
+        .conteudo = "null",
+        .tipo = 1
+    };
+
+    GtkTreeIter iter;
+    gtk_list_store_append(widgets->liststore1, &iter);
+    gtk_list_store_set(widgets->liststore1, &iter, 0, arquivo.nome, 1, arquivo.dataCriacao, 2, arquivo.dataModificacao, 3, arquivo.dataAcesso, -1);
+        
     gtk_stack_set_visible_child_name(widgets->stack, "principal");
 }

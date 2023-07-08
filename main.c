@@ -33,6 +33,7 @@ int main(int argc, char *argv[]){
     widgets->bt_delete = GTK_WIDGET(gtk_builder_get_object(builder, "button_delete"));
     widgets->bt_iterative = GTK_WIDGET(gtk_builder_get_object(builder, "button_iterative"));
     widgets->bt_voltar_principal = GTK_WIDGET(gtk_builder_get_object(builder, "voltar_principal"));
+    widgets->bt_create_dir = GTK_WIDGET(gtk_builder_get_object(builder, "button_create_dir"));
     widgets->liststore1 = GTK_LIST_STORE(gtk_builder_get_object(builder, "liststore1"));
     widgets->treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tabela_principal"));
 
@@ -42,10 +43,15 @@ int main(int argc, char *argv[]){
     widgets->bt_voltar_listar = GTK_WIDGET(gtk_builder_get_object(builder, "voltar_listar"));
 
     // Tela criar
-    widgets->entry_tipo_modelo = GTK_WIDGET(gtk_builder_get_object(builder, "tipo_modelo"));
+    widgets->entry_conteudo = GTK_WIDGET(gtk_builder_get_object(builder, "conteudo"));
     widgets->entry_nome_arquivo = GTK_WIDGET(gtk_builder_get_object(builder, "nome_arquivo"));
     widgets->bt_salvar = GTK_WIDGET(gtk_builder_get_object(builder, "button_salvar"));
     widgets->bt_voltar = GTK_WIDGET(gtk_builder_get_object(builder, "button_voltar"));
+
+    // Tela criar diretorio
+    widgets->entry_nome_dir = GTK_WIDGET(gtk_builder_get_object(builder, "nome_dir"));
+    widgets->bt_salvar = GTK_WIDGET(gtk_builder_get_object(builder, "button_salvar_dir"));
+    widgets->bt_voltar = GTK_WIDGET(gtk_builder_get_object(builder, "voltar_criar_dir"));
 
     // Tela editar
     widgets->entry_nome_edit = GTK_WIDGET(gtk_builder_get_object(builder, "nome_edit"));
@@ -67,18 +73,22 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    Arquivo arquivo1 = {
+    Modelo arquivo1 = {
         .nome = "arquivo1.txt",
         .dataCriacao = "2023-06-01",
         .dataModificacao = "2023-06-02",
-        .dataAcesso = "2023-06-03"
+        .dataAcesso = "2023-06-03",
+        .conteudo = "Conteudo do arquivo 1",
+        .tipo = 0
     };
 
-    Arquivo arquivo2 = {
+    Modelo arquivo2 = {
         .nome = "arquivo2.txt",
         .dataCriacao = "2023-06-04",
         .dataModificacao = "2023-06-05",
-        .dataAcesso = "2023-06-06"
+        .dataAcesso = "2023-06-06",
+        .conteudo = "Conteudo do arquivo 2",
+        .tipo = 0
     };
 
     GtkTreeIter iter;

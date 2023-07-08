@@ -132,7 +132,6 @@
               <object class="GtkButtonBox" id="button_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="margin-top">3</property>
                 <property name="margin-bottom">2</property>
                 <property name="layout-style">start</property>
                 <child>
@@ -147,7 +146,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="pixel-size">33</property>
-                        <property name="icon-name">add</property>
+                        <property name="icon-name">document-new</property>
                       </object>
                     </child>
                   </object>
@@ -155,6 +154,29 @@
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_create_dir">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="halign">start</property>
+                    <property name="valign">center</property>
+                    <signal name="clicked" handler="on_button_create_dir_clicked" swapped="no"/>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixel-size">33</property>
+                        <property name="icon-name">add-folder-to-archive</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -176,7 +198,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -198,7 +220,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -220,11 +242,8 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>
@@ -419,7 +438,7 @@
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Tipo do novo modelo</property>
+                <property name="label" translatable="yes">Nome do Arquivo</property>
                 <attributes>
                   <attribute name="font-desc" value="Tlwg Mono Bold 10"/>
                   <attribute name="scale" value="2"/>
@@ -432,7 +451,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="tipo_modelo">
+              <object class="GtkEntry" id="nome_arquivo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
               </object>
@@ -447,7 +466,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-top">4</property>
-                <property name="label" translatable="yes">Nome</property>
+                <property name="label" translatable="yes">Conteudo</property>
                 <attributes>
                   <attribute name="font-desc" value="Tlwg Mono Bold 10"/>
                   <attribute name="scale" value="2"/>
@@ -460,7 +479,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="nome_arquivo">
+              <object class="GtkEntry" id="conteudo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="margin-bottom">7</property>
@@ -776,6 +795,97 @@
             <property name="name">iterativo</property>
             <property name="title" translatable="yes">iterativo</property>
             <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="criar_dir">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Nome do Diretorio</property>
+                <attributes>
+                  <attribute name="font-desc" value="Tlwg Mono Bold 10"/>
+                  <attribute name="scale" value="2"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="nome_dir">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButtonBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">center</property>
+                <property name="margin-top">9</property>
+                <property name="baseline-position">bottom</property>
+                <property name="layout-style">start</property>
+                <child>
+                  <object class="GtkButton" id="voltar_criar_dir">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_voltar_criar_dir_clicked" swapped="no"/>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixel-size">33</property>
+                        <property name="icon-name">edit-redo-rtl-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_salvar_dir">
+                    <property name="label" translatable="yes">Salvar</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_button_salvar_dir_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="name">criar_dir</property>
+            <property name="title" translatable="yes">criar_dir</property>
+            <property name="position">6</property>
           </packing>
         </child>
       </object>
