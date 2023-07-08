@@ -11,6 +11,24 @@ EntradaDiretorio criaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINo
     return entradaDiretorio;
 }
 
+ListaEntradaDiretorio* criaListaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode, int enderecoBloco){
+    ListaEntradaDiretorio *listaED;
+    listaED->proximo = NULL;
+    listaED->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode, enderecoBloco);
+}
+
+void inserirEntradaDiretorio(ListaEntradaDiretorio *listaED, EnumTipo tipo, char *nome, int enderecoINode, int enderecoBloco){
+    apontadorListaED aux;
+    aux = listaED->proximo;
+    while (aux != NULL){
+        aux = aux->proximo;
+    }
+    aux = (apontadorListaED)malloc(sizeof(ListaEntradaDiretorio));
+    aux->proximo = NULL;
+    aux->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode, enderecoBloco);
+    //aux = criaListaEntradaDiretorio(tipo, nome, enderecoINode, enderecoBloco);
+}
+
 void alteraNomeArquivo(EntradaDiretorio *entradaDiretorio, char *novoNomeArquivo){
     strcpy(entradaDiretorio->nome, novoNomeArquivo);
 }

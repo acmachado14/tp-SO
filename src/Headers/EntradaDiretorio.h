@@ -6,6 +6,12 @@
 #include <string.h>
 #include <stdio.h>
 
+typedef struct ListaED *apontadorListaED;
+typedef struct ListaED{
+    apontadorListaED proximo;
+    EntradaDiretorio entradaDiretorio;
+}ListaEntradaDiretorio;
+
 typedef enum{
 	arquivo, diretorio
 }EnumTipo;
@@ -19,6 +25,10 @@ typedef struct {
 }EntradaDiretorio;
 
 EntradaDiretorio criaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode, int enderecoBloco);
+
+ListaEntradaDiretorio* criaListaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode, int enderecoBloco);
+
+void inserirEntradaDiretorio(ListaEntradaDiretorio *listaED, EnumTipo tipo, char *nome, int enderecoINode, int enderecoBloco);
 
 void alteraNomeArquivo(EntradaDiretorio *entradaDiretorio, char *novoNomeArquivo);
 
