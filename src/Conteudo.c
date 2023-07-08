@@ -5,7 +5,6 @@ Conteudo* criaConteudo(){
     Conteudo *conteudo;
     conteudo = (Conteudo*)malloc(sizeof(Conteudo));
     return conteudo;
-
 }
 
 void inserirConteudo(Conteudo *conteudo, char *string){

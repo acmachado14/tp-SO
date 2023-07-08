@@ -3,6 +3,12 @@
 #include "Conteudo.h"
 
 typedef struct {
-    int enderecoBloco;
-    Conteudo conteudo;
+    int endereco;
+    Conteudo *conteudo;
 }EnderecoBloco;
+
+EnderecoBloco* criaEnderecoBloco();
+
+void inserirEnderecoBloco(EnderecoBloco *enderecoBloco, char *string, int endereco);
+
+int getEndereco(EnderecoBloco *enderecoBloco);
