@@ -12,18 +12,20 @@ EntradaDiretorio criaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINo
 
 ListaEntradaDiretorio* criaListaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode){
     ListaEntradaDiretorio *listaED;
+    listaED = (ListaEntradaDiretorio*)malloc(sizeof(ListaEntradaDiretorio));
     listaED->proximo = NULL;
     listaED->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode);
     return listaED;
 }
 
-void inserirEntradaDiretorio(ListaEntradaDiretorio *listaED, EnumTipo tipo, char *nome, int enderecoINode){
+void inserirEntradaDiretorio(ListaEntradaDiretorio **listaED, EnumTipo tipo, char *nome, int enderecoINode){
     apontadorListaED aux;
-    aux = listaED;
-    while (aux != NULL){
+    aux = *listaED;
+    while (aux->proximo != NULL){
         aux = aux->proximo;
     }
-    aux = (apontadorListaED)malloc(sizeof(ListaEntradaDiretorio));
+    aux->proximo = (apontadorListaED)malloc(sizeof(ListaEntradaDiretorio));
+    aux = aux->proximo;
     aux->proximo = NULL;
     aux->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode);
     //aux = criaListaEntradaDiretorio(tipo, nome, enderecoINode);
@@ -41,8 +43,10 @@ int getEnderecoINode(EntradaDiretorio entradaDiretorio){
     return entradaDiretorio.enderecoINode;
 }
 
-char* getNome(EntradaDiretorio entradaDiretorio){
-    return entradaDiretorio.nome;
+char* getNome(EntradaDiretorio *entradaDiretorio){
+    printf("--0000----\n");
+    printf("%s\n", entradaDiretorio->nome);
+    return entradaDiretorio->nome;
 }
 
 EnumTipo getEnemTipo(EntradaDiretorio entradaDiretorio){

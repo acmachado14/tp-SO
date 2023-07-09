@@ -27,7 +27,7 @@ EntradaDiretorio criaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINo
 
 ListaEntradaDiretorio* criaListaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode);
 
-void inserirEntradaDiretorio(ListaEntradaDiretorio *listaED, EnumTipo tipo, char *nome, int enderecoINode);
+void inserirEntradaDiretorio(ListaEntradaDiretorio **listaED, EnumTipo tipo, char *nome, int enderecoINode);
 
 void alteraNomeArquivo(EntradaDiretorio *entradaDiretorio, char *novoNomeArquivo);
 
@@ -35,7 +35,7 @@ void alteraNomeDiretorio(EntradaDiretorio *entradaDiretorio, char *novoNomeDiret
 
 int getEnderecoINode(EntradaDiretorio entradaDiretorio);
 
-char* getNome(EntradaDiretorio entradaDiretorio);
+char* getNome(EntradaDiretorio *entradaDiretorio);
 
 EnumTipo getEnemTipo(EntradaDiretorio entradaDiretorio);
 
