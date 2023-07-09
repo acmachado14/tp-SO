@@ -3,6 +3,7 @@
         "gtk.h": "c",
         "arquivo.h": "c",
         "string.h": "c",
-        "inode.h": "c"
+        "inode.h": "c",
+        "sistemaarquivo.h": "c"
     }
 }
