@@ -12,6 +12,7 @@ int main(int argc, char const *argv[]){
     bool parar = true;
     while (parar == false){
         int qualOpcao = 0;
+        printf("chegou aqui:\n");
         //SistemaArquivo *sistemaArquivo == (&sistemaArquivo)
         //Entrar em um diretorio
         //void entrarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
@@ -60,7 +61,7 @@ int main(int argc, char const *argv[]){
         default:
             parar = false;
             break;
-    }
+        }
     }
     
     

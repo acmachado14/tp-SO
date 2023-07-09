@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "gtk.h": "c",
+        "arquivo.h": "c",
+        "string.h": "c",
+        "inode.h": "c"
+    }
+}
