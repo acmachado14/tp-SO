@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct {
+typedef struct bloco* apontadorBlocoConteudo;
+typedef struct bloco{
     int endereco;
     char *conteudo;
 }BlocoConteudo;
