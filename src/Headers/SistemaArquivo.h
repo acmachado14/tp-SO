@@ -36,9 +36,13 @@ bool apagarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
 
 char* listarConteudoDiretorio(SistemaArquivo *sistemaArquivo);
 
-ListaBlocoConteudo* criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquico);
+/*ListaBlocoConteudo** criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquico);
 
-void inserirConteudoArquivo(SistemaArquivo *sistemaArquivo, ListaBlocoConteudo *listaBlocoConteudo, char *conteudo);
+void inserirConteudoArquivo(SistemaArquivo *sistemaArquivo, ListaBlocoConteudo **listaBlocoConteudo, char *conteudo);*/
+
+BlocoConteudo** criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquico);
+
+void inserirConteudoArquivo(SistemaArquivo *sistemaArquivo, BlocoConteudo **blocoConteudo, char *conteudo);
 
 bool renomearArquivo(SistemaArquivo *sistemaArquivo, char *novoNome, char *antigoNome);
 

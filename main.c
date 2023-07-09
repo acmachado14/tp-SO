@@ -10,11 +10,26 @@ int main(int argc, char const *argv[]){
     SistemaArquivo sistemaArquivo;
     sistemaArquivo = inicializaSistemaArquivo(tamanhoParticaoDisco, tamanhoBloco);
     //sleep(2);
-    printf("Cria diretorio\n");
+    printf("-----Cria diretorio------\n");
     criarDiretorio(&sistemaArquivo, "Teste01");
-    printf("Lista conteudo diretorio\n");
+    printf("---------Lista conteudo diretorio-------\n");
     printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-    printf("--\n");
+    criarDiretorio(&sistemaArquivo, "Teste02");
+    criarDiretorio(&sistemaArquivo, "Teste03");
+    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
+    printf("----------Criar arquivo-----------\n");
+    BlocoConteudo **blocoConteudo;
+    blocoConteudo = criarArquivo(&sistemaArquivo, "Arquivo01");
+    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
+    inserirConteudoArquivo(&sistemaArquivo, blocoConteudo, "Que merda de trabalho e esse mano");
+    printf("%s\n", (*blocoConteudo)->conteudo);
+    printf("%d\n", (*blocoConteudo)->endereco);
+    criarDiretorio(&sistemaArquivo, "Teste04");
+    printf("----------Lista Conteudo Arquivo-----------\n");
+    printf("%s\n",  listarConteudoArquivo(&sistemaArquivo, "Arquivo01"));
+    
+    //printf("%s", listarConteudoDiretorio(&sistemaArquivo));
+            //ListaBlocoConteudo* criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquico);
     //bool parar = true;
     /*while (parar == false){
         int qualOpcao = 0;
