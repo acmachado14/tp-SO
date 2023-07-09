@@ -50,8 +50,9 @@ char** descomprimirConteudoDiretorio(const char* conteudoDiretorio, int* quantid
     return nomes;
 }
 
-void atualizarTabelaPrincipal(AppWidgets *widgets){
-    
+void atualizarTabelaPrincipal(AppWidgets *widgets){    
+    gtk_list_store_clear(widgets->liststore1);
+
     char *conteudoBruto = listarConteudoDiretorio(&sistemaArquivo);
     
     printf("%s\n", conteudoBruto);
@@ -59,6 +60,7 @@ void atualizarTabelaPrincipal(AppWidgets *widgets){
     char **conteudo = descomprimirConteudoDiretorio(conteudoBruto, &quantidadeNomes);
 
     for(int i = 0; i < quantidadeNomes; i++){
+        printf("o conteudo era pra ser esse: %s\n", conteudo[i]);
         GtkTreeIter iter;
         gtk_list_store_append(widgets->liststore1, &iter);
         gtk_list_store_set(widgets->liststore1, &iter, 0, conteudo[i], 1, "teste", 2, "teste", 3, "teste", -1);
@@ -83,16 +85,19 @@ void on_button_iniciar_clicked(GtkWidget *bt_inciar, void *data){
 
     paginaAnterior = "inicial";
     //entrarDiretorio(&sistemaArquivo, "raiz");
-    //criarDiretorio(&sistemaArquivo, "teste1");
-
-    printf("entrou no diretorio raiz\n");
-    ListaBlocoConteudo *listaBloco = criarArquivo(&sistemaArquivo, "batata");
     
-    printf("Inserindo conteudo no arquivo\n");
-    inserirConteudoArquivo(&sistemaArquivo, listaBloco, "lepo lepo");
-
+    criarDiretorio(&sistemaArquivo, "teste1");
+    criarDiretorio(&sistemaArquivo, "dir1");
+    
+    //ListaBlocoConteudo *listaBloco = criarArquivo(&sistemaArquivo, "batata");
+    
+    //printf("teste 1\n");
+    //inserirConteudoArquivo(&sistemaArquivo, listaBloco, "lepo");
+    //printf("teste 2\n");
+    
     atualizarTabelaPrincipal(widgets);
     
+    printf("teste 3\n");
     gtk_stack_set_visible_child_name(widgets->stack, "principal");
 }
 
@@ -381,18 +386,9 @@ void on_button_salvar_dir_clicked(GtkWidget *bt_confirma, void *data) {
 
     strncpy(nomeDir, nome, tamanho);
 
-    Modelo arquivo = {
-        .nome = nomeDir,
-        .dataCriacao = obterDataAtual(),
-        .dataModificacao = obterDataAtual(),
-        .dataAcesso = obterDataAtual(),
-        .conteudo = "null",
-        .tipo = 1
-    };
-
-    GtkTreeIter iter;
-    gtk_list_store_append(widgets->liststore1, &iter);
-    gtk_list_store_set(widgets->liststore1, &iter, 0, arquivo.nome, 1, arquivo.dataCriacao, 2, arquivo.dataModificacao, 3, arquivo.dataAcesso, -1);
-        
+    criarDiretorio(&sistemaArquivo, nomeDir);
+    
+    atualizarTabelaPrincipal(widgets);
+    
     gtk_stack_set_visible_child_name(widgets->stack, "principal");
 }
