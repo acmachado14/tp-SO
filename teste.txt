@@ -1,0 +1,3 @@
+create tp02.txt
+list dir x
+delete tp02.txt
