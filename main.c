@@ -21,12 +21,28 @@ int main(int argc, char const *argv[]){
     BlocoConteudo **blocoConteudo;
     blocoConteudo = criarArquivo(&sistemaArquivo, "Arquivo01");
     printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-    inserirConteudoArquivo(&sistemaArquivo, blocoConteudo, "Que merda de trabalho e esse mano");
-    printf("%s\n", (*blocoConteudo)->conteudo);
-    printf("%d\n", (*blocoConteudo)->endereco);
-    criarDiretorio(&sistemaArquivo, "Teste04");
+    inserirConteudoArquivo(&sistemaArquivo, blocoConteudo, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     printf("----------Lista Conteudo Arquivo-----------\n");
-    printf("%s\n",  listarConteudoArquivo(&sistemaArquivo, "Arquivo01"));
+    printf("%s\n", listarConteudoArquivo(&sistemaArquivo, "Arquivo01"));
+    /*printf("----------Renomear Arquivo-----------\n");
+     bool a = renomearArquivo(&sistemaArquivo, "Arquivo0000001", "Arquivo01");
+    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
+
+    printf("----------Apagar Arquivo-----------\n");
+    bool b = apagarArquivo(&sistemaArquivo, "Arquivo0000001");
+
+    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
+
+    printf("----------Renomear Diretorio----------\n");
+    bool c = renomearDiretorio(&sistemaArquivo, "Teste------1", "Teste01");
+    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
+
+    printf("----------Apagar Diretorio-----------\n");
+    
+    bool n = apagarDiretorio(&sistemaArquivo, "Teste------1");
+    printf("\n");
+    printf("%s", listarConteudoDiretorio(&sistemaArquivo));*/
+    //printf("%s\n",  listarConteudoArquivo(&sistemaArquivo, "Arquivo01"));
     
     //printf("%s", listarConteudoDiretorio(&sistemaArquivo));
             //ListaBlocoConteudo* criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquico);
