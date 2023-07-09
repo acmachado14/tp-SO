@@ -25,7 +25,8 @@ typedef struct {
     EnumINode enumINode;
     Atributos atributos;
     //union {
-    ListaBlocoConteudo *listaBC;
+    //ListaBlocoConteudo *listaBC;
+    BlocoConteudo *blocoConteudo;
     ListaEntradaDiretorio *listaED;
     //}armazena;
 }INode;

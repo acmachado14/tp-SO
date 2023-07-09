@@ -7,7 +7,8 @@ INode* criaINodeArquivo(){
     iNode->quantidadeArmazena = 0;
     iNode->enumINode = blocoConteudo;
     iNode->atributos = criaAtributo();
-    iNode->listaBC = NULL;
+    //iNode->listaBC = NULL;
+    iNode->blocoConteudo = NULL;
     iNode->listaED = NULL;
     //iNode->armazena.listaBC = NULL;
     return iNode;
@@ -20,7 +21,8 @@ INode* criaINodeDiretorio(){
     iNode->quantidadeArmazena = 0;
     iNode->enumINode = entradaDiretorio;
     iNode->atributos = criaAtributo();
-    iNode->listaBC = NULL;
+    //iNode->listaBC = NULL;
+    iNode->blocoConteudo = NULL;
     iNode->listaED = NULL;
     //iNode->armazena.listaED = NULL;
     return iNode;
