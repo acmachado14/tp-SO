@@ -74,7 +74,7 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    Modelo arquivo1 = {
+    /*Modelo arquivo1 = {
         .nome = "arquivo1.txt",
         .dataCriacao = "2023-06-01",
         .dataModificacao = "2023-06-02",
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]){
     gtk_list_store_append(widgets->liststore1, &iter);
     gtk_list_store_set(widgets->liststore1, &iter, 0, arquivo2.nome, 1, arquivo2.dataCriacao, 2, arquivo2.dataModificacao, 3, arquivo2.dataAcesso, -1);
 
-
+    */
     // Conseguir o endereco do botao e dos sinais
     gtk_builder_connect_signals(builder, widgets);
 

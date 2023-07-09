@@ -1,6 +1,8 @@
 #include "Headers/gtk.h"
+#include "Headers/SistemaArquivo.h"
 
 char *paginaAnterior;
+SistemaArquivo sistemaArquivo;
 
 char* obterDataAtual() {
     time_t rawtime;
@@ -22,17 +24,75 @@ char* obterDataAtual() {
     return data;
 }
 
+char** descomprimirConteudoDiretorio(const char* conteudoDiretorio, int* quantidadeNomes) {
+    const char* delimitador = "\n";
+    char* copiaConteudo = strdup(conteudoDiretorio); // Faz uma cópia da string para não modificar a original
+    char* token = strtok(copiaConteudo, delimitador);
+    int capacidade = 10; // Capacidade inicial do array
+    int tamanho = 0; // Tamanho atual do array
+    char** nomes = malloc(capacidade * sizeof(char*));
+    
+    while (token != NULL) {
+        nomes[tamanho] = strdup(token); // Cria uma cópia do token
+        tamanho++;
+        
+        if (tamanho >= capacidade) {
+            capacidade *= 2; // Dobra a capacidade do array
+            nomes = realloc(nomes, capacidade * sizeof(char*));
+        }
+        
+        token = strtok(NULL, delimitador);
+    }
+    
+    free(copiaConteudo); // Libera a memória alocada pela cópia
+    *quantidadeNomes = tamanho; // Define a quantidade de nomes
+    
+    return nomes;
+}
+
+void atualizarTabelaPrincipal(AppWidgets *widgets){
+    
+    char *conteudoBruto = listarConteudoDiretorio(&sistemaArquivo);
+    
+    printf("%s\n", conteudoBruto);
+    int quantidadeNomes;
+    char **conteudo = descomprimirConteudoDiretorio(conteudoBruto, &quantidadeNomes);
+
+    for(int i = 0; i < quantidadeNomes; i++){
+        GtkTreeIter iter;
+        gtk_list_store_append(widgets->liststore1, &iter);
+        gtk_list_store_set(widgets->liststore1, &iter, 0, conteudo[i], 1, "teste", 2, "teste", 3, "teste", -1);
+    }
+    gtk_stack_set_visible_child_name(widgets->stack, "principal");
+}
+
 void on_button_iniciar_clicked(GtkWidget *bt_inciar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
 
-    const char *particao = gtk_entry_get_text(GTK_ENTRY(widgets->entry_particao));
-    const char *bloco = gtk_entry_get_text(GTK_ENTRY(widgets->entry_bloco));
+    const char *particaoChar = gtk_entry_get_text(GTK_ENTRY(widgets->entry_particao));
+    const char *blocoChar = gtk_entry_get_text(GTK_ENTRY(widgets->entry_bloco));
 
-    printf("Partição: %s\n", particao);
-    printf("Bloco: %s\n", bloco);
+    char *endptr;
+    int particaoInt = strtol(particaoChar, &endptr, 10);
+    int blocoInt = strtol(blocoChar, &endptr, 10);
+
+    printf("Partição: %d\n", particaoInt);
+    printf("Bloco: %d\n", blocoInt);
+
+    sistemaArquivo = inicializaSistemaArquivo(10, 4096);
 
     paginaAnterior = "inicial";
-        
+    //entrarDiretorio(&sistemaArquivo, "raiz");
+    //criarDiretorio(&sistemaArquivo, "teste1");
+
+    printf("entrou no diretorio raiz\n");
+    ListaBlocoConteudo *listaBloco = criarArquivo(&sistemaArquivo, "batata");
+    
+    printf("Inserindo conteudo no arquivo\n");
+    inserirConteudoArquivo(&sistemaArquivo, listaBloco, "lepo lepo");
+
+    atualizarTabelaPrincipal(widgets);
+    
     gtk_stack_set_visible_child_name(widgets->stack, "principal");
 }
 
