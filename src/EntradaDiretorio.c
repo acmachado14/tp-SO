@@ -7,8 +7,6 @@ EntradaDiretorio criaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINo
     entradaDiretorio.enderecoINode = enderecoINode;
     entradaDiretorio.nome = (char*)malloc(28 * sizeof(char));
     strcpy(entradaDiretorio.nome, nome);
-    
-    //entradaDiretorio.iNodes = ;// Funçaõ a ser criada ainda
     return entradaDiretorio;
 }
 
@@ -16,11 +14,12 @@ ListaEntradaDiretorio* criaListaEntradaDiretorio(EnumTipo tipo, char *nome, int 
     ListaEntradaDiretorio *listaED;
     listaED->proximo = NULL;
     listaED->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode);
+    return listaED;
 }
 
 void inserirEntradaDiretorio(ListaEntradaDiretorio *listaED, EnumTipo tipo, char *nome, int enderecoINode){
     apontadorListaED aux;
-    aux = listaED->proximo;
+    aux = listaED;
     while (aux != NULL){
         aux = aux->proximo;
     }
@@ -50,10 +49,10 @@ EnumTipo getEnemTipo(EntradaDiretorio entradaDiretorio){
     return entradaDiretorio.tipo;
 }
 
-INodes getINodes(EntradaDiretorio entradaDiretorio){
+/*INodes getINodes(EntradaDiretorio entradaDiretorio){
     return entradaDiretorio.iNodes;
 }
 
 void salvarINodes(EntradaDiretorio *entradaDiretorio, INodes iNodes){
     entradaDiretorio->iNodes = iNodes;
-}
+}*/

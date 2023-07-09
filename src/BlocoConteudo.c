@@ -26,7 +26,7 @@ ListaBlocoConteudo* criaListaBlocoConteudo(char *string, int endereco){
 
 void inserirConteudo(ListaBlocoConteudo *listaBloco, char *string, int endereco){
     apontadorListaBC aux;
-    aux = listaBloco->proximo;
+    aux = listaBloco;
     while (aux != NULL){
         aux = aux->proximo;
     }

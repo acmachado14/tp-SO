@@ -6,12 +6,13 @@
 #include <stdio.h>
 
 #include "EntradaDiretorio.h"
+#include "INode.h"
 
 typedef struct{
     int *mapaBitBlocoConteudo;
     int *mapaBitINode;
     int quantidadeBlocosConteudo;
-    int quantidadeINodes;
+    int quantidadeINode;
     long long int tamanhoSistemaArquivo;
     int tamanhoBloco;
 }InformacoesSA;
@@ -19,6 +20,8 @@ typedef struct{
 typedef struct{
     InformacoesSA informacoesSA;
     EntradaDiretorio entradaDiretorio;
+    NavegacaoDiretorio *navegacaoDiretorio;
+    INode **listaINode;
 }SistemaArquivo;
 
 SistemaArquivo inicializaSistemaArquivo(int tamanhoParticaoDisco, int tamanhoBloco);

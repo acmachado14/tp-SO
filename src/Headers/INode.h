@@ -1,5 +1,5 @@
-#ifndef INODES_H
-#define INODES_H
+#ifndef INODE_H
+#define INODE_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,12 +9,17 @@
 #include "EntradaDiretorio.h"
 #include "BlocoConteudo.h"
 
+typedef struct navegDire *apontadorNavegacaoDiretorio;
+typedef struct navegDire{
+    int enderecoINodeAtual;
+    apontadorNavegacaoDiretorio proximo;
+}NavegacaoDiretorio;
+
 typedef enum{
 	entradaDiretorio, blocoConteudo
 }EnumINode;
 
 typedef struct {
-    int enderecoBloco;
     int enderecoBlocoAux;
     int quantidadeArmazena;
     EnumINode enumINode;
@@ -23,14 +28,18 @@ typedef struct {
         ListaBlocoConteudo *listaBC;
         ListaEntradaDiretorio *listaED;
     }armazena;
-}INodes;
+}INode;
 
-INodes criaINodesArquivo(EnumINode enumINode, int enderecoBloco, char *string, int enderecoBlocoConteudo);
+INode* criaINodeArquivo(EnumINode enumINode);
 
-INodes criaINodesDiretorio(EnumTipo tipo, EnumINode enumINode, int enderecoBlocoINode, char *nome, int enderecoINode, int enderecoBlocoDiretorio);
+INode* criaINodeDiretorio(EnumINode enumINode);
 
 int primeiraPossicaoComValor0(int *vetor, int tamanho);
 
 void modficaValorBit(int *vetor, int posicao, int novoValor);
 
-#endif //INODES_H
+NavegacaoDiretorio* criaNavegacaoDiretorio(int enderecoINode);
+
+void adicionaEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio, int enderecoINode);
+
+#endif //INODE_H
