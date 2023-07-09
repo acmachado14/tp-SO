@@ -52,5 +52,7 @@ char* listarConteudoArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquivo);
 
 void entrarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
 
+void sairDiretorio(SistemaArquivo *sistemaArquivo);
+
 
 #endif //SISTEMAARQUIVO_H
