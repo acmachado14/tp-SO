@@ -15,15 +15,15 @@ typedef struct {
     char *conteudo;
 }BlocoConteudo;
 
-BlocoConteudo criaBlocoConteudo(char *string, int endereco, int tamanhoBloco);
+BlocoConteudo criaBlocoConteudo(char *string, int endereco);
 
 int getEndereco(BlocoConteudo blocoConteudo);
 
 char* getConteudoBloco(BlocoConteudo blocoConteudo);
 
-ListaBlocoConteudo* criaListaBlocoConteudo(char *string, int endereco, int tamanhoBloco);
+ListaBlocoConteudo* criaListaBlocoConteudo(char *string, int endereco);
 
-void inserirConteudo(ListaBlocoConteudo *lstaBlocoConteudo, char *string, int endereco, int tamanhoBloco);
+void inserirConteudo(ListaBlocoConteudo *listaBlocoConteudo, char *string, int endereco);
 
 
 #endif //BLOCOCONTEUDO_H

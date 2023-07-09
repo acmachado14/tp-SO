@@ -1,9 +1,9 @@
 #include "Headers/BlocoConteudo.h"
 
-BlocoConteudo criaBlocoConteudo(char *string, int endereco, int tamanhoBloco){
+BlocoConteudo criaBlocoConteudo(char *string, int endereco){
     BlocoConteudo blocoConteudo;
     blocoConteudo.endereco = endereco;
-    blocoConteudo.conteudo = (char*)malloc(tamanhoBloco * sizeof(char));
+    blocoConteudo.conteudo = (char*)malloc(strlen(string) * sizeof(char));
     strcpy(blocoConteudo.conteudo, string);
     return blocoConteudo;
 }
@@ -17,14 +17,14 @@ char* getConteudoBloco(BlocoConteudo blocoConteudo){
     return blocoConteudo.conteudo;
 }
 
-ListaBlocoConteudo* criaListaBlocoConteudo(char *string, int endereco, int tamanhoBloco){
+ListaBlocoConteudo* criaListaBlocoConteudo(char *string, int endereco){
     ListaBlocoConteudo *listaBlocoConteudo;
     listaBlocoConteudo->proximo = NULL;
-    listaBlocoConteudo->blocoConteudo = criaBlocoConteudo(string, endereco, tamanhoBloco);
+    listaBlocoConteudo->blocoConteudo = criaBlocoConteudo(string, endereco);
     return listaBlocoConteudo;
 }
 
-void inserirConteudo(ListaBlocoConteudo *listaBloco, char *string, int endereco, int tamanhoBloco){
+void inserirConteudo(ListaBlocoConteudo *listaBloco, char *string, int endereco){
     apontadorListaBC aux;
     aux = listaBloco->proximo;
     while (aux != NULL){
@@ -32,6 +32,6 @@ void inserirConteudo(ListaBlocoConteudo *listaBloco, char *string, int endereco,
     }
     aux = (apontadorListaBC)malloc(sizeof(ListaBlocoConteudo));
     aux->proximo = NULL;
-    aux->blocoConteudo = criaBlocoConteudo(string, endereco, tamanhoBloco);
-    //aux = criaListaBlocoConteudo(string, endereco, tamanhoBloco);
+    aux->blocoConteudo = criaBlocoConteudo(string, endereco);
+    //aux = criaListaBlocoConteudo(string, endereco);
 }
