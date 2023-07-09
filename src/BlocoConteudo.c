@@ -27,10 +27,11 @@ ListaBlocoConteudo* criaListaBlocoConteudo(char *string, int endereco){
 void inserirConteudo(ListaBlocoConteudo *listaBloco, char *string, int endereco){
     apontadorListaBC aux;
     aux = listaBloco;
-    while (aux != NULL){
+    while (aux->proximo != NULL){
         aux = aux->proximo;
     }
-    aux = (apontadorListaBC)malloc(sizeof(ListaBlocoConteudo));
+    aux->proximo = (apontadorListaBC)malloc(sizeof(ListaBlocoConteudo));
+    aux = aux->proximo;
     aux->proximo = NULL;
     aux->blocoConteudo = criaBlocoConteudo(string, endereco);
     //aux = criaListaBlocoConteudo(string, endereco);

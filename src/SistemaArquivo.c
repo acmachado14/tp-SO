@@ -43,17 +43,19 @@ void criarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio){
     novoEnderecoINode = primeiraPossicaoComValor0(sistemaArquivo->informacoesSA.mapaBitINode, quantINode);
     modficaValorBit(sistemaArquivo->informacoesSA.mapaBitINode, novoEnderecoINode, 1);
     EnumTipo tipo = diretorio;
-    ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
-    if(listaED == NULL){
-        listaED = criaListaEntradaDiretorio(tipo, nomeDiretorio, novoEnderecoINode);
+    ListaEntradaDiretorio **listaED;;
+    INode *iNode;
+    iNode = sistemaArquivo->listaINode[enderecoAtualINode];
+    listaED = &(iNode->listaED);
+    if(*listaED == NULL){
+        *listaED = criaListaEntradaDiretorio(tipo, nomeDiretorio, novoEnderecoINode);
     }
     else{
         inserirEntradaDiretorio(listaED, tipo, nomeDiretorio, novoEnderecoINode);
     }
     sistemaArquivo->listaINode[novoEnderecoINode] = criaINodeDiretorio();
-
-    setQuantidadeArmazena(sistemaArquivo->listaINode[novoEnderecoINode], getQuantidadeArmazena(sistemaArquivo->listaINode[novoEnderecoINode]) + 1);
+    
+    setQuantidadeArmazena(sistemaArquivo->listaINode[enderecoAtualINode], getQuantidadeArmazena(sistemaArquivo->listaINode[enderecoAtualINode]) + 1);
 
 }
 
@@ -61,7 +63,7 @@ bool renomearDiretorio(SistemaArquivo *sistemaArquivo, char *novoNome, char *ant
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
 
     while (listaED != NULL){
         if(comparaString(listaED->entradaDiretorio.nome, antigoNome) == 0){
@@ -77,7 +79,7 @@ bool apagarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio){
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
     apontadorListaED aux;
     while (listaED != NULL){
         if(comparaString(listaED->entradaDiretorio.nome, nomeDiretorio) == 0){
@@ -101,12 +103,17 @@ char* listarConteudoDiretorio(SistemaArquivo *sistemaArquivo){
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    INode *iNode;
+    iNode = sistemaArquivo->listaINode[enderecoAtualINode];
+    //listaED = sistemaArquivo->listaINode[enderecoAtualINode]->listaED;
+    //listaED = iNode->listaED;
+    listaED = iNode->listaED;
     char *conteudoDiretorio;
     conteudoDiretorio = (char*)malloc(sizeof(char));
+    strcpy(conteudoDiretorio, "");
     while (listaED != NULL){
-        strcpy(conteudoDiretorio, listaED->entradaDiretorio.nome); // Copia a primeira string para o resultado
-        strcat(conteudoDiretorio, "\n"); // Adiciona o caractere de nova linha
+        strcat(conteudoDiretorio, listaED->entradaDiretorio.nome); // Copia a primeira string para o resultado
+        strcat(conteudoDiretorio, " \n"); // Adiciona o caractere de nova linha
         listaED = listaED->proximo;
     }
     return conteudoDiretorio;
@@ -119,8 +126,16 @@ ListaBlocoConteudo* criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArqui
     novoEnderecoINode = primeiraPossicaoComValor0(sistemaArquivo->informacoesSA.mapaBitINode, quantINode);
     modficaValorBit(sistemaArquivo->informacoesSA.mapaBitINode, novoEnderecoINode, 1);
     EnumTipo tipo = arquivo;
-    ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    //ListaEntradaDiretorio *listaED;
+    ListaEntradaDiretorio **listaED;
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
+    /*EnumTipo tipo = diretorio;
+    ListaEntradaDiretorio **listaED;
+    //listaED = (ListaEntradaDiretorio*)malloc(sizeof(ListaEntradaDiretorio));
+    INode *iNode;
+    iNode = sistemaArquivo->listaINode[enderecoAtualINode];
+    //listaED = sistemaArquivo->listaINode[enderecoAtualINode]->listaED;
+    listaED = &(iNode->listaED);*/
     if(listaED == NULL){
         listaED = criaListaEntradaDiretorio(tipo, nomeArquico, novoEnderecoINode);
     }
@@ -129,7 +144,7 @@ ListaBlocoConteudo* criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArqui
     }
     sistemaArquivo->listaINode[novoEnderecoINode] = criaINodeArquivo();
     setQuantidadeArmazena(sistemaArquivo->listaINode[novoEnderecoINode], getQuantidadeArmazena(sistemaArquivo->listaINode[novoEnderecoINode]) + 1);
-    return sistemaArquivo->listaINode[novoEnderecoINode]->armazena.listaBC;
+    return sistemaArquivo->listaINode[novoEnderecoINode]->listaBC;
 }
 
 void inserirConteudoArquivo(SistemaArquivo *sistemaArquivo, ListaBlocoConteudo *listaBlocoConteudo, char *conteudo){
@@ -166,7 +181,7 @@ bool renomearArquivo(SistemaArquivo *sistemaArquivo, char *novoNome, char *antig
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
     while (listaED != NULL){
         if(comparaString(listaED->entradaDiretorio.nome, antigoNome) == 0){
             alteraNomeDiretorio(&(listaED->entradaDiretorio), novoNome);
@@ -181,7 +196,7 @@ ListaEntradaDiretorio* obterEntradaDiretorio(SistemaArquivo *sistemaArquivo, cha
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
     apontadorListaED aux;
     while (listaED != NULL){
         if(comparaString(listaED->entradaDiretorio.nome, nomeArquivo) == 0){
@@ -204,7 +219,7 @@ void moverArquivo(SistemaArquivo *sistemaArquivo, ListaEntradaDiretorio *listaEn
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
     while (listaED != NULL){
         listaED = listaED->proximo;
     }
@@ -217,7 +232,7 @@ bool apagarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquivo){
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
     apontadorListaED aux;
     while (listaED != NULL){
         if(comparaString(listaED->entradaDiretorio.nome, nomeArquivo) == 0){
@@ -241,7 +256,7 @@ char* listarConteudoArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquivo){
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
     char *conteudoArquivo;
     conteudoArquivo = (char*)malloc(sizeof(char));
     int enderecoArquivo; 
@@ -253,7 +268,7 @@ char* listarConteudoArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquivo){
         listaED = listaED->proximo;
     }
     ListaBlocoConteudo *listaBC;
-    listaBC = sistemaArquivo->listaINode[enderecoArquivo]->armazena.listaBC;
+    listaBC = sistemaArquivo->listaINode[enderecoArquivo]->listaBC;
     while (listaBC != NULL){
         strcpy(conteudoArquivo, listaBC->blocoConteudo.conteudo);
         listaBC = listaBC->proximo;
@@ -265,7 +280,7 @@ void entrarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio){
     int enderecoAtualINode, enderecoDiretorio;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     ListaEntradaDiretorio *listaED;
-    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->armazena.listaED);
+    listaED = (sistemaArquivo->listaINode[enderecoAtualINode]->listaED);
     while (listaED != NULL){
         if(comparaString(listaED->entradaDiretorio.nome, nomeDiretorio) == 0){
             enderecoDiretorio = listaED->entradaDiretorio.enderecoINode;

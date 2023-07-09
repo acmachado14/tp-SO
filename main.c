@@ -1,5 +1,5 @@
 #include "src/Headers/SistemaArquivo.h"
-
+//#include <unistd.h>
 //#include <unistd.h>
 
 int main(int argc, char const *argv[]){
@@ -9,8 +9,14 @@ int main(int argc, char const *argv[]){
     int tamanhoParticaoDisco = 10; // Em MB
     SistemaArquivo sistemaArquivo;
     sistemaArquivo = inicializaSistemaArquivo(tamanhoParticaoDisco, tamanhoBloco);
-    bool parar = true;
-    while (parar == false){
+    //sleep(2);
+    printf("Cria diretorio\n");
+    criarDiretorio(&sistemaArquivo, "Teste01");
+    printf("Lista conteudo diretorio\n");
+    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
+    printf("--\n");
+    //bool parar = true;
+    /*while (parar == false){
         int qualOpcao = 0;
         //SistemaArquivo *sistemaArquivo == (&sistemaArquivo)
         //Entrar em um diretorio
@@ -61,7 +67,7 @@ int main(int argc, char const *argv[]){
             parar = false;
             break;
     }
-    }
+    }*/
     
     
     printf("-------------------------------------------------------------------\n");

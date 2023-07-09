@@ -2,21 +2,27 @@
 
 INode* criaINodeArquivo(){
     INode *iNode;
+    iNode = (INode*)malloc(sizeof(INode));
     iNode->enderecoBlocoAux = -1;
     iNode->quantidadeArmazena = 0;
     iNode->enumINode = blocoConteudo;
     iNode->atributos = criaAtributo();
-    iNode->armazena.listaBC = NULL;
+    iNode->listaBC = NULL;
+    iNode->listaED = NULL;
+    //iNode->armazena.listaBC = NULL;
     return iNode;
 }
 
 INode* criaINodeDiretorio(){
     INode *iNode;
+    iNode = (INode*)malloc(sizeof(INode));
     iNode->enderecoBlocoAux = -1;
     iNode->quantidadeArmazena = 0;
     iNode->enumINode = entradaDiretorio;
     iNode->atributos = criaAtributo();
-    iNode->armazena.listaED = NULL;
+    iNode->listaBC = NULL;
+    iNode->listaED = NULL;
+    //iNode->armazena.listaED = NULL;
     return iNode;
 }
 
@@ -35,6 +41,7 @@ void modficaValorBit(int *vetor, int posicao, int novoValor){
 
 NavegacaoDiretorio* criaNavegacaoDiretorio(int enderecoINode){
     NavegacaoDiretorio *navegacaoDiretorio;
+    navegacaoDiretorio = (NavegacaoDiretorio*)malloc(sizeof(NavegacaoDiretorio));
     navegacaoDiretorio->enderecoINodeAtual = enderecoINode;
     navegacaoDiretorio->proximo = NULL;
     return navegacaoDiretorio;
