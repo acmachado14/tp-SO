@@ -21,3 +21,16 @@ INodes criaINodesDiretorio(EnumTipo tipo, EnumINode enumINode, int enderecoBloco
     iNodes.armazena.listaED = criaListaEntradaDiretorio(tipo, nome, enderecoINode, enderecoBlocoDiretorio);
     return iNodes;
 }
+
+int primeiraPossicaoComValor0(int *vetor, int tamanho){
+    for(int i = 0; i < tamanho; i++){
+        if(vetor[i] == 0){
+            return i;
+        }
+    }
+    return -1;
+}
+
+void modficaValorBit(int *vetor, int posicao, int novoValor){
+    vetor[posicao] = novoValor;
+}

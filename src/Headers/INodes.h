@@ -29,4 +29,8 @@ INodes criaINodesArquivo(EnumINode enumINode, int enderecoBloco, char *string, i
 
 INodes criaINodesDiretorio(EnumTipo tipo, EnumINode enumINode, int enderecoBlocoINode, char *nome, int enderecoINode, int enderecoBlocoDiretorio);
 
+int primeiraPossicaoComValor0(int *vetor, int tamanho);
+
+void modficaValorBit(int *vetor, int posicao, int novoValor);
+
 #endif //INODES_H

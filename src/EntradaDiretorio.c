@@ -1,23 +1,24 @@
 #include "Headers/EntradaDiretorio.h"
 
 
-EntradaDiretorio criaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode, int enderecoBloco){
+EntradaDiretorio criaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode){
     EntradaDiretorio entradaDiretorio;
     entradaDiretorio.tipo = tipo;
     entradaDiretorio.enderecoINode = enderecoINode;
     entradaDiretorio.nome = (char*)malloc(28 * sizeof(char));
     strcpy(entradaDiretorio.nome, nome);
+    
     //entradaDiretorio.iNodes = ;// Funçaõ a ser criada ainda
     return entradaDiretorio;
 }
 
-ListaEntradaDiretorio* criaListaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode, int enderecoBloco){
+ListaEntradaDiretorio* criaListaEntradaDiretorio(EnumTipo tipo, char *nome, int enderecoINode){
     ListaEntradaDiretorio *listaED;
     listaED->proximo = NULL;
-    listaED->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode, enderecoBloco);
+    listaED->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode);
 }
 
-void inserirEntradaDiretorio(ListaEntradaDiretorio *listaED, EnumTipo tipo, char *nome, int enderecoINode, int enderecoBloco){
+void inserirEntradaDiretorio(ListaEntradaDiretorio *listaED, EnumTipo tipo, char *nome, int enderecoINode){
     apontadorListaED aux;
     aux = listaED->proximo;
     while (aux != NULL){
@@ -25,8 +26,8 @@ void inserirEntradaDiretorio(ListaEntradaDiretorio *listaED, EnumTipo tipo, char
     }
     aux = (apontadorListaED)malloc(sizeof(ListaEntradaDiretorio));
     aux->proximo = NULL;
-    aux->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode, enderecoBloco);
-    //aux = criaListaEntradaDiretorio(tipo, nome, enderecoINode, enderecoBloco);
+    aux->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode);
+    //aux = criaListaEntradaDiretorio(tipo, nome, enderecoINode);
 }
 
 void alteraNomeArquivo(EntradaDiretorio *entradaDiretorio, char *novoNomeArquivo){

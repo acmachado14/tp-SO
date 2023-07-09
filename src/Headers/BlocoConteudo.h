@@ -5,15 +5,16 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct {
+    int endereco;
+    char *conteudo;
+}BlocoConteudo;
+
 typedef struct ListaBC *apontadorListaBC;
 typedef struct ListaBC{
     apontadorListaBC proximo;
     BlocoConteudo blocoConteudo;
 }ListaBlocoConteudo;
-typedef struct {
-    int endereco;
-    char *conteudo;
-}BlocoConteudo;
 
 BlocoConteudo criaBlocoConteudo(char *string, int endereco);
 
