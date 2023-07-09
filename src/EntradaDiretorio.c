@@ -49,10 +49,3 @@ EnumTipo getEnemTipo(EntradaDiretorio entradaDiretorio){
     return entradaDiretorio.tipo;
 }
 
-/*INodes getINodes(EntradaDiretorio entradaDiretorio){
-    return entradaDiretorio.iNodes;
-}
-
-void salvarINodes(EntradaDiretorio *entradaDiretorio, INodes iNodes){
-    entradaDiretorio->iNodes = iNodes;
-}*/

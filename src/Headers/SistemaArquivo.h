@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "EntradaDiretorio.h"
 #include "INode.h"
@@ -26,5 +27,10 @@ typedef struct{
 
 SistemaArquivo inicializaSistemaArquivo(int tamanhoParticaoDisco, int tamanhoBloco);
 
+void criarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
+
+bool renomearDiretorio(SistemaArquivo *sistemaArquivo, char *novoNome, char *antigoNome);
+
+bool apagarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
 
 #endif //SISTEMAARQUIVO_H

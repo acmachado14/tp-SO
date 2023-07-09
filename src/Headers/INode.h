@@ -30,9 +30,9 @@ typedef struct {
     }armazena;
 }INode;
 
-INode* criaINodeArquivo(EnumINode enumINode);
+INode* criaINodeArquivo();
 
-INode* criaINodeDiretorio(EnumINode enumINode);
+INode* criaINodeDiretorio();
 
 int primeiraPossicaoComValor0(int *vetor, int tamanho);
 
@@ -41,5 +41,11 @@ void modficaValorBit(int *vetor, int posicao, int novoValor);
 NavegacaoDiretorio* criaNavegacaoDiretorio(int enderecoINode);
 
 void adicionaEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio, int enderecoINode);
+
+int getUltimoEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio);
+
+void setQuantidadeArmazena(INode *iNode, int novoValor);
+
+int getQuantidadeArmazena(INode *iNode);
 
 #endif //INODE_H
