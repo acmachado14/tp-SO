@@ -8,7 +8,7 @@ BlocoConteudo criaBlocoConteudo(char *string, int endereco){
     return blocoConteudo;
 }
 
-int getEndereco(BlocoConteudo blocoConteudo){
+int getEnderecoBloco(BlocoConteudo blocoConteudo){
     return blocoConteudo.endereco;
 }
 

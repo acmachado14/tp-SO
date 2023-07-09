@@ -18,7 +18,7 @@ typedef struct ListaBC{
 
 BlocoConteudo criaBlocoConteudo(char *string, int endereco);
 
-int getEndereco(BlocoConteudo blocoConteudo);
+int getEnderecoBloco(BlocoConteudo blocoConteudo);
 
 char* getConteudoBloco(BlocoConteudo blocoConteudo);
 

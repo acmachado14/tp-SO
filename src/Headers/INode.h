@@ -42,6 +42,8 @@ NavegacaoDiretorio* criaNavegacaoDiretorio(int enderecoINode);
 
 void adicionaEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio, int enderecoINode);
 
+void apagarEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio);
+
 int getUltimoEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio);
 
 void setQuantidadeArmazena(INode *iNode, int novoValor);

@@ -8,6 +8,7 @@
 
 #include "EntradaDiretorio.h"
 #include "INode.h"
+#include "BlocoConteudo.h"
 
 typedef struct{
     int *mapaBitBlocoConteudo;
@@ -32,5 +33,24 @@ void criarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
 bool renomearDiretorio(SistemaArquivo *sistemaArquivo, char *novoNome, char *antigoNome);
 
 bool apagarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
+
+char* listarConteudoDiretorio(SistemaArquivo *sistemaArquivo);
+
+ListaBlocoConteudo* criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquico);
+
+void inserirConteudoArquivo(SistemaArquivo *sistemaArquivo, ListaBlocoConteudo *listaBlocoConteudo, char *conteudo);
+
+bool renomearArquivo(SistemaArquivo *sistemaArquivo, char *novoNome, char *antigoNome);
+
+ListaEntradaDiretorio* obterEntradaDiretorio(SistemaArquivo *sistemaArquivo, char *nomeArquivo);
+
+void moverArquivo(SistemaArquivo *sistemaArquivo, ListaEntradaDiretorio *listaEntradaDiretorio);
+
+bool apagarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquivo);
+
+char* listarConteudoArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquivo);
+
+void entrarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
+
 
 #endif //SISTEMAARQUIVO_H

@@ -51,6 +51,17 @@ void adicionaEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDireto
     aux->enderecoINodeAtual = enderecoINode;
 }
 
+void apagarEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio){
+    apontadorNavegacaoDiretorio aux;
+    aux = navegacaoDiretorio->proximo;
+    while (aux->proximo != NULL){
+        aux = aux->proximo;
+        navegacaoDiretorio = navegacaoDiretorio->proximo;
+    }
+    free(navegacaoDiretorio->proximo);
+    navegacaoDiretorio->proximo = NULL;
+}
+
 int getUltimoEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio){
     int endereco;
     apontadorNavegacaoDiretorio aux;
