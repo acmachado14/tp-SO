@@ -223,7 +223,6 @@ void on_button_iterative_clicked(GtkWidget *bt_voltar, void *data){
 }
 
 void on_button_delete_clicked(GtkWidget *bt_voltar, void *data){
-
     AppWidgets *widgets = (AppWidgets *)data;
 
     // Lógica para deletar um diretório
@@ -234,6 +233,14 @@ void on_button_delete_clicked(GtkWidget *bt_voltar, void *data){
     if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
         gchar *nomeDiretorio;
         gtk_tree_model_get(model, &iter, 0, &nomeDiretorio, -1);
+
+        if(apagarDiretorio(&sistemaArquivo, nomeDiretorio)){
+            printf("Diretório %s removido\n", nomeDiretorio);
+        }
+
+        if(apagarArquivo(&sistemaArquivo, nomeDiretorio)){
+            printf("Arquivo %s removido\n", nomeDiretorio);
+        }
 
         // Remova o diretório do modelo de dados
         gtk_list_store_remove(widgets->liststore1, &iter);
@@ -314,14 +321,18 @@ void on_button_salvar_editar_clicked(GtkWidget *bt_confirma, void *data) {
         gchar *dataModificacao;
         gchar *dataAcesso;
 
-        // Obtendo os valores das colunas
-        gtk_tree_model_get(model, &iter, 0, &nomeArquivo, 1, &dataCriacao, 2, &dataModificacao, 3, &dataAcesso, -1);
+        if(renomearDiretorio(&sistemaArquivo, entryNome, nomeArquivo)){
+            printf("Diretório %s renomeado para %s\n", nomeArquivo, entryNome);
+        }
 
-        //Da pra printar aqui se for preciso
+        if(renomearArquivo(&sistemaArquivo, entryNome, nomeArquivo)){
+            printf("Arquivo %s renomeado para %s\n", nomeArquivo, entryNome);
+        }
+
+        gtk_tree_model_get(model, &iter, 0, &nomeArquivo, 1, &dataCriacao, 2, &dataModificacao, 3, &dataAcesso, -1);
 
         gtk_list_store_set(GTK_LIST_STORE(model), &iter, 0, entryNome, 1, dataCriacao, 2, obterDataAtual(), 3, dataAcesso, -1);
 
-        // Liberar a memória alocada para as strings obtidas do modelo
         g_free(nomeArquivo);
         g_free(dataCriacao);
         g_free(dataModificacao);
@@ -343,16 +354,12 @@ void on_button_salvar_clicked(GtkWidget *bt_confirma, void *data) {
 
     strncpy(novaString, nome, tamanho);
 
-    Modelo arquivo = {
-        .nome = novaString,
-        .dataCriacao = obterDataAtual(),
-        .dataModificacao = obterDataAtual(),
-        .dataAcesso = obterDataAtual()
-    };
+    criarArquivo(&sistemaArquivo, novaString);
+    //inserirConteudoArquivo(SistemaArquivo *sistemaArquivo, ListaBlocoConteudo *listaBlocoConteudo, char *conteudo);
 
     GtkTreeIter iter;
     gtk_list_store_append(widgets->liststore1, &iter);
-    gtk_list_store_set(widgets->liststore1, &iter, 0, arquivo.nome, 1, arquivo.dataCriacao, 2, arquivo.dataModificacao, 3, arquivo.dataAcesso, -1);
+    gtk_list_store_set(widgets->liststore1, &iter, 0, novaString, 1, "hoje", 2, "hoje", 3, "hoje", -1);
         
     gtk_stack_set_visible_child_name(widgets->stack, "principal");
 }
