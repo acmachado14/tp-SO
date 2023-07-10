@@ -43,7 +43,11 @@ void liberarLog(Log *log) {
 }
 
 void criarArquivo(char *nomeArquivo,bool sucesso, Log *log) {
-    adicionarMensagem(log, "Criando arquivo: %s\n", nomeArquivo);
+   if (sucesso) {
+        adicionarMensagem(log, "Arquivo %s criado com sucesso\n", nomeArquivo);
+    } else {
+        adicionarMensagem(log, "Erro ao criar arquivo %s\n", nomeArquivo);
+    }
 }
 
 void deletarArquivo(char *nomeArquivo, bool sucesso, Log *log) {
@@ -82,8 +86,8 @@ void renomearArquivo(char *nomeArquivo, char *novoNomeArquivo, bool sucesso, Log
     }
 }
 
-void moverArquivo(char *nomeArquivo, char *diretorioAtual, char *novoDiretorio, Log *log) {
-    adicionarMensagem(log, "Movendo arquivo: %s de %s para %s\n", nomeArquivo, diretorioAtual, novoDiretorio);
+void moverArquivo(char *nomeArquivo, Log *log) {
+    adicionarMensagem(log, "Movendo arquivo: %s \n", nomeArquivo);
 }
 
 void listarConteudoDiretorio(char *diretorio, Log *log) {
@@ -125,10 +129,10 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                             if (blocoConteudo != NULL) {
                                 inserirConteudoArquivo(sistemaArquivo, blocoConteudo, &parametro2);
                                 criarArquivo(parametro1, true, log);
+                                adicionarMensagem(log, "Conteúdo do arquivo %s: %s\n", parametro1, parametro2);
                             } else {
                                 criarArquivo(parametro1, false, log);
                             }
-                    //TODO: fazer bolocoConteudo aqui ou receber como parametro?
                 }
             } else if (strcmp(comando, "deletefile") == 0 || strcmp(comando, "Delete") == 0) {
                 token = strtok(NULL, " \t\n");
@@ -152,16 +156,9 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                 token = strtok(NULL, " \t\n");
                 if (token != NULL) {
                     strcpy(parametro1, token);
-                    token = strtok(NULL, " \t\n");
-                    if (token != NULL) {
-                        strcpy(parametro2, token);
-                        token = strtok(NULL, " \t\n");
-                        if (token != NULL) {
-                            strcpy(parametro3, token);
-                            //TODO: função que le caminho do diretorio e retorna o ListaEntradaDiretorio
-                            moverArquivo(parametro1, parametro2, parametro3, log);
-                        }
-                    }
+                    ListaEntradaDiretorio *listaEntradaDiretorio = obterEntradaDiretorio(sistemaArquivo, &parametro1);
+                    moverArquivo(sistemaArquivo, listaEntradaDiretorio);
+                    moverArquivo(parametro1, log);
                 } 
             } else if (strcmp(comando, "renamefile") == 0 || strcmp(comando, "Renamefile") == 0) {
                 token = strtok(NULL, " \t\n");
