@@ -28,7 +28,7 @@ void apagarDiretorioIterativo(char *nomeDiretorio, bool sucesso, Log *log);
 
 void renomearArquivoIterativo(char *nomeArquivo, char *novoNomeArquivo, bool sucesso, Log *log);
 
-void moverArquivoIterativo(char *nomeArquivo, char *diretorioAtual, char *novoDiretorio, Log *log);
+void moverArquivoIterativo(char *nomeArquivo, Log *log);
 
 void listarConteudoDiretorioIterativo(char *diretorio, Log *log);
 
