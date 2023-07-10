@@ -7,15 +7,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-typedef struct {
-    gchar *nome;
-    gchar *dataCriacao;
-    gchar *dataModificacao;
-    gchar *dataAcesso;
-    gchar *conteudo;
-    int tipo;
-} Modelo;
-
 typedef struct{
     GtkStack *stack;
     GtkWidget *window;
