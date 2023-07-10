@@ -11,7 +11,7 @@ typedef struct {
 
 Log* criarLog();
 void adicionarMensagem(Log *log, const char *mensagem);
-void imprimirLog(Log *log);
+char* imprimirLog(Log *log);
 void liberarLog(Log *log);
 
 void criarArquivoIterativo(char *nomeArquivo,bool sucesso, Log *log);
@@ -32,6 +32,8 @@ void moverArquivoIterativo(char *nomeArquivo, Log *log);
 
 void listarConteudoDiretorioIterativo(char *diretorio, Log *log);
 
-Log * leituraIterativa(SistemaArquivo *sistemaArquivo);
+Log * leituraIterativa(SistemaArquivo *sistemaArquivo, char *nomeArquivo);
+
+Log *leituraUnificada(SistemaArquivo *sistemaArquivo, char *entrada);
 
 #endif

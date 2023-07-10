@@ -1,5 +1,6 @@
 #include "Headers/gtk.h"
 #include "Headers/SistemaArquivo.h"
+#include "Headers/LeituraIterativa.h"
 
 char *paginaAnterior;
 SistemaArquivo sistemaArquivo;
@@ -283,15 +284,30 @@ void on_button_delete_clicked(GtkWidget *bt_voltar, void *data){
 
 void on_button_command_line_clicked(GtkWidget *bt_voltar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
+
+    const char *comando = gtk_entry_get_text(GTK_ENTRY(widgets->entry_entrada_iterativo));
+
+    gtk_text_buffer_set_text(widgets->buffer_entradas, comando, -1);
+
+    char *buffer = (char*)malloc(256 * sizeof(char));
+
+    strcpy(buffer, comando);
+
+    Log *log = leituraUnificada(&sistemaArquivo, buffer);
+
+    int tamanhoTotal = 0;
+    for (int i = 0; i < log->tamanho; i++) {
+        tamanhoTotal += strlen(log->mensagens[i]) + 1;
+    }
+
+    char *buffer2 = (char*)malloc(tamanhoTotal * sizeof(char));
     
-    //logica
+    buffer2 = imprimirLog(log);
+    
+    gtk_text_buffer_set_text(widgets->buffer_saidas, buffer2, -1);
 
-    // Definir o texto no buffer
-    const char *particao = gtk_entry_get_text(GTK_ENTRY(widgets->entry_entrada_iterativo));
-
-    gtk_text_buffer_set_text(widgets->buffer_entradas, particao, -1);
-
-    gtk_text_buffer_set_text(widgets->buffer_saidas, particao, -1);
+    free(buffer);
+    free(buffer2);
 }
 
 void on_button_pesquisar_arquivo_clicked(GtkWidget *bt_voltar, void *data){
@@ -326,9 +342,23 @@ void on_button_pesquisar_arquivo_clicked(GtkWidget *bt_voltar, void *data){
 
     gtk_text_buffer_set_text(widgets->buffer_entradas, buffer, -1);
 
-    gtk_text_buffer_set_text(widgets->buffer_saidas, buffer, -1);
+    Log *log = leituraIterativa(&sistemaArquivo, caminho_arquivo);
+
+    int tamanhoTotal = 0;
+    for (int i = 0; i < log->tamanho; i++) {
+        tamanhoTotal += strlen(log->mensagens[i]) + 1;
+    }
+
+    char *buffer2 = (char*)malloc(tamanhoTotal * sizeof(char));
+    
+    buffer2 = imprimirLog(log);
+    
+    printf("buffer: %s\n", buffer2);
+
+    gtk_text_buffer_set_text(widgets->buffer_saidas, buffer2, -1);
 
     free(buffer);
+    free(buffer2);
 }
 
 void on_button_salvar_editar_clicked(GtkWidget *bt_confirma, void *data) {

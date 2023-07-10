@@ -30,10 +30,26 @@ void adicionarMensagem(Log *log, const char *mensagem) {
     log->tamanho++;
 }
 
-void imprimirLog(Log *log) {
-    for (int i = 0; i < log->tamanho; i++) {
-        printf("%s\n", log->mensagens[i]);
+char* imprimirLog(Log *log) {
+    if (log == NULL) {
+        return NULL;  // Retorna NULL se o log for nulo
     }
+
+    // Calcula o tamanho total necessário para a string concatenada
+    int tamanhoTotal = 0;
+    for (int i = 0; i < log->tamanho; i++) {
+        tamanhoTotal += strlen(log->mensagens[i]) + 1; // +1 para o caractere de quebra de linha
+    }
+
+    char* concatenado = (char*)malloc(tamanhoTotal * sizeof(char));
+    concatenado[0] = '\0'; // Inicializa a string concatenada
+
+    for (int i = 0; i < log->tamanho; i++) {
+        strcat(concatenado, log->mensagens[i]);
+        strcat(concatenado, "\n");
+    }
+
+    return concatenado;
 }
 
 void liberarLog(Log *log) {
@@ -96,26 +112,13 @@ void listarConteudoDiretorioIterativo(char *diretorio, Log *log) {
     adicionarMensagem(log, "Listando conteúdo do arquivo\n");
 }
 
-
-Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
-    FILE *arquivo;
-    char linha[100]; // Defina o tamanho máximo da linha
-    char nome[20], comando[20], parametro1[20], parametro2[20], parametro3[20];
+Log *leituraUnificada(SistemaArquivo *sistemaArquivo, char *entrada) {
+    char comando[20], parametro1[20], parametro2[20], parametro3[20];
     char *token;
 
-    printf("Entre com o nome do arquivo: ");
-    scanf("%s", nome);
-
-    arquivo = fopen(nome, "r"); // Abra o arquivo para leitura
-
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-    }
-
+    printf("Entrada: %s\n", entrada);
     Log *log = criarLog();
-
-    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
-        token = strtok(linha, " \t\n");
+        token = strtok(entrada, " \t\n");
         if (token != NULL) {
             strcpy(comando, token);
 
@@ -126,11 +129,11 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     token = strtok(NULL, " \t\n");
                     if (token != NULL) {
                             strcpy(parametro2, token);
-                            BlocoConteudo ** blocoConteudo = criarArquivo(sistemaArquivo, parametro1);
+                            BlocoConteudo **blocoConteudo = criarArquivo(sistemaArquivo, parametro1);
                             if (blocoConteudo != NULL) {
                                 inserirConteudoArquivo(sistemaArquivo, blocoConteudo, parametro2);
                                 criarArquivoIterativo(parametro1, true, log);
-                                adicionarMensagem(log, "Conteúdo do arquivo\n");
+                                adicionarMensagem(log, parametro2);
                             } else {
                                 criarArquivoIterativo(parametro1, false, log);
                             }
@@ -142,6 +145,7 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     strcpy(parametro1, token);
                     bool sucesso =  apagarArquivo(sistemaArquivo,parametro1);
                     deletarArquivoIterativo(parametro1, sucesso, log);
+
                 }
             } else if (strcmp(comando, "listfile") == 0 || strcmp(comando, "Listfile") == 0) {
                 token = strtok(NULL, " \t\n");
@@ -169,7 +173,123 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     token = strtok(NULL, " \t\n");
                     if (token != NULL) {
                         strcpy(parametro2, token);
-                        bool sucesso = renomearArquivo(sistemaArquivo, parametro1, parametro2);
+                        bool sucesso = renomearDiretorio(sistemaArquivo, parametro1, parametro2);
+                        renomearArquivoIterativo(parametro1, parametro2, sucesso, log);
+                    }
+                }
+            } else if (strcmp(comando, "createdir") == 0 || strcmp(comando, "Createdir") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    criarDiretorio(sistemaArquivo, parametro1);
+                    criarDiretorioIterativo(parametro1, log);
+                }
+            } else if (strcmp(comando, "renamedir") == 0 || strcmp(comando, "Renamedir") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    token = strtok(NULL, " \t\n");
+                    if (token != NULL) {
+                        strcpy(parametro2, token);
+                        renomearDiretorio(sistemaArquivo, parametro1, parametro2);
+                        renomearDiretorioIterativo(parametro1, parametro2, log);
+                    }
+                }
+            } else if (strcmp(comando, "deletedir") == 0 || strcmp(comando, "Deletedir") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    bool sucesso = apagarDiretorio(sistemaArquivo, parametro1);
+                    apagarDiretorioIterativo(parametro1, sucesso, log);
+                }
+            } else if (strcmp(comando, "listdir") == 0 || strcmp(comando, "Listdir") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    listarConteudoDiretorioIterativo(parametro1, log);
+                    char *conteudoDiretorio;
+                    conteudoDiretorio = (char*)malloc(1000 * sizeof(char)); 
+                    conteudoDiretorio = listarConteudoDiretorio(sistemaArquivo);
+                    adicionarMensagem(log, conteudoDiretorio);
+                }
+             }
+        }
+
+    return log;
+}
+
+
+Log *leituraIterativa(SistemaArquivo *sistemaArquivo, char *nomeArquivo) {
+    FILE *arquivo;
+    char linha[100]; // Defina o tamanho máximo da linha
+    char comando[20], parametro1[20], parametro2[20], parametro3[20];
+    char *token;
+
+    arquivo = fopen(nomeArquivo, "r"); // Abra o arquivo para leitura
+
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+    }
+
+    Log *log = criarLog();
+    printf("Lendo arquivo...\n");
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        token = strtok(linha, " \t\n");
+        if (token != NULL) {
+            strcpy(comando, token);
+
+            if (strcmp(comando, "createfile") == 0 || strcmp(comando, "Create") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    token = strtok(NULL, " \t\n");
+                    if (token != NULL) {
+                            strcpy(parametro2, token);
+                            BlocoConteudo **blocoConteudo = criarArquivo(sistemaArquivo, parametro1);
+                            if (blocoConteudo != NULL) {
+                                inserirConteudoArquivo(sistemaArquivo, blocoConteudo, parametro2);
+                                criarArquivoIterativo(parametro1, true, log);
+                                adicionarMensagem(log, parametro2);
+                            } else {
+                                criarArquivoIterativo(parametro1, false, log);
+                            }
+                    }
+                }
+            } else if (strcmp(comando, "deletefile") == 0 || strcmp(comando, "Delete") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    bool sucesso =  apagarArquivo(sistemaArquivo,parametro1);
+                    deletarArquivoIterativo(parametro1, sucesso, log);
+
+                }
+            } else if (strcmp(comando, "listfile") == 0 || strcmp(comando, "Listfile") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    listarConteudoArquivoIterativo(parametro1, log);
+                     char *conteudoArquivo;
+                     conteudoArquivo = (char*)malloc( 10000 * sizeof(char));
+                     conteudoArquivo = listarConteudoArquivo(sistemaArquivo, parametro1);
+                     adicionarMensagem(log, conteudoArquivo);
+                    
+                }
+             } else if (strcmp(comando, "movefile") == 0 || strcmp(comando, "Movefile") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    ListaEntradaDiretorio *listaEntradaDiretorio = obterEntradaDiretorio(sistemaArquivo, parametro1);
+                    moverArquivo(sistemaArquivo, listaEntradaDiretorio);
+                    moverArquivoIterativo(parametro1, log);
+                } 
+            } else if (strcmp(comando, "renamefile") == 0 || strcmp(comando, "Renamefile") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    token = strtok(NULL, " \t\n");
+                    if (token != NULL) {
+                        strcpy(parametro2, token);
+                        bool sucesso = renomearDiretorio(sistemaArquivo, parametro1, parametro2);
                         renomearArquivoIterativo(parametro1, parametro2, sucesso, log);
                     }
                 }
@@ -214,5 +334,5 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
 
     fclose(arquivo); // Feche o arquivo
 
-    return 0;
+    return log;
 }

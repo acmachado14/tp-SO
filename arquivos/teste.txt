@@ -1,10 +1,9 @@
 createfile tp02.txt amostra_de_arquivo
 listfile tp02.txt
 createdir SO
-renamefile tp02.txt tp_02.txt
+renamefile tp_02.txt tp02.txt
 deletefile tp_02.txt
-renamedir SO SistemasOperacionais
+renamedir SistemasOperacionais SO
 createdir SO2023
 listdir SO2023
-movefile tp_02.txt
 deletedir SistemasOperacionais
