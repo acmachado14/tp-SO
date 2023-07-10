@@ -6,6 +6,8 @@
 
 #define TAMANHO_MAX_MENSAGEM 10000
 
+#define CAPACIDADE_INICIAL 10
+
 
 Log* criarLog() {
     Log *log = (Log*)malloc(sizeof(Log));
