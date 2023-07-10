@@ -28,7 +28,6 @@ void inserirEntradaDiretorio(ListaEntradaDiretorio **listaED, EnumTipo tipo, cha
     aux = aux->proximo;
     aux->proximo = NULL;
     aux->entradaDiretorio = criaEntradaDiretorio(tipo, nome, enderecoINode);
-    //aux = criaListaEntradaDiretorio(tipo, nome, enderecoINode);
 }
 
 void alteraNomeArquivo(EntradaDiretorio *entradaDiretorio, char *novoNomeArquivo){

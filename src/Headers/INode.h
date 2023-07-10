@@ -24,11 +24,8 @@ typedef struct {
     int quantidadeArmazena;
     EnumINode enumINode;
     Atributos atributos;
-    //union {
-    //ListaBlocoConteudo *listaBC;
     BlocoConteudo *blocoConteudo;
     ListaEntradaDiretorio *listaED;
-    //}armazena;
 }INode;
 
 INode* criaINodeArquivo();
