@@ -6,5 +6,5 @@ deletefile tp_02.txt
 renamedir SO SistemasOperacionais
 createdir SO2023
 listdir SO2023
-movefile tp_02.txt SistemasOperacionais SO2023
+movefile tp_02.txt
 deletedir SistemasOperacionais
