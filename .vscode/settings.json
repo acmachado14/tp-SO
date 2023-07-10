@@ -5,6 +5,9 @@
         "**/templates/*": "django-txt",
         "**/requirements{/**,*}.{txt,in}": "pip-requirements",
         "stdlib.h": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "gtk.h": "c",
+        "sistemaarquivo.h": "c",
+        "leituraiterativa.h": "c"
     }
 }

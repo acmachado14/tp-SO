@@ -1,5 +1,5 @@
 #include "Headers/gtk.h"
-#include "Headers/SistemaArquivo.h"
+#include "Headers/LeituraIterativa.h"
 
 char *paginaAnterior;
 SistemaArquivo sistemaArquivo;
