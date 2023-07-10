@@ -93,7 +93,7 @@ void on_button_iniciar_clicked(GtkWidget *bt_inciar, void *data){
     printf("Partição: %d\n", particaoInt);
     printf("Bloco: %d\n", blocoInt);
 
-    sistemaArquivo = inicializaSistemaArquivo(10, 4096);
+    sistemaArquivo = inicializaSistemaArquivo(particaoInt, blocoInt);
 
     paginaAnterior = "inicial";
     
