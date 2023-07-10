@@ -1,7 +1,6 @@
 #ifndef ENTRADADIRETORIO_H
 #define ENTRADADIRETORIO_H
 
-//#include "INodes.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
