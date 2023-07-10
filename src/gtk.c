@@ -4,26 +4,6 @@
 char *paginaAnterior;
 SistemaArquivo sistemaArquivo;
 
-char* obterDataAtual() {
-    time_t rawtime;
-    struct tm* timeinfo;
-    char* data = (char*)malloc(sizeof(char) * 20);  // 19 caracteres para a data e hora + 1 caractere nulo de terminação
-
-    if (data == NULL) {
-        // Tratar o erro de alocação de memória
-        return NULL;
-    }
-
-    // Obter o tempo atual
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
-
-    // Formatar a data e hora no formato dd-mm-yyyy HH:MM:SS
-    strftime(data, 20, "%d-%m-%Y %H:%M:%S", timeinfo);
-
-    return data;
-}
-
 char** descomprimirConteudoDiretorio(const char* conteudoDiretorio, int* quantidadeNomes) {
     const char* delimitador = "\n";
     char* copiaConteudo = strdup(conteudoDiretorio); // Faz uma cópia da string para não modificar a original
@@ -50,9 +30,21 @@ char** descomprimirConteudoDiretorio(const char* conteudoDiretorio, int* quantid
     return nomes;
 }
 
+void removerUltimoCaractere(char *str) {
+    if (str == NULL || strlen(str) == 0) {
+        return;  // Verifica se a string é nula ou vazia
+    }
+
+    int tamanho = strlen(str);
+    if (str[tamanho - 1] == ' ') {
+        str[tamanho - 1] = '\0';  // Substitui o último caractere por '\0'
+    }
+}
+
 void atualizarTabelaPrincipal(AppWidgets *widgets){    
     gtk_list_store_clear(widgets->liststore1);
 
+    //Diretorios
     char *conteudoBruto = listarConteudoDiretorio(&sistemaArquivo);
     
     printf("%s\n", conteudoBruto);
@@ -60,12 +52,31 @@ void atualizarTabelaPrincipal(AppWidgets *widgets){
     char **conteudo = descomprimirConteudoDiretorio(conteudoBruto, &quantidadeNomes);
 
     for(int i = 0; i < quantidadeNomes; i++){
-        printf("o conteudo era pra ser esse: %s\n", conteudo[i]);
+        removerUltimoCaractere(conteudo[i]);
+        int enderecoAtualINode;
+        enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo.navegacaoDiretorio);
+        ListaEntradaDiretorio *listaED;
+        listaED = (sistemaArquivo.listaINode[enderecoAtualINode]->listaED);
+
+        char *dataCriacao;
+        char *dataModificacao;
+        char *dataAcesso;
+        while (listaED != NULL){
+            if(strcmp(listaED->entradaDiretorio.nome, conteudo[i]) == 0){                
+                int a = listaED->entradaDiretorio.enderecoINode;
+                INode *iNode = sistemaArquivo.listaINode[a];
+                dataCriacao = iNode->atributos.dataCriacao;
+                dataModificacao = iNode->atributos.dataUltimaModificacao;
+                dataAcesso = iNode->atributos.dataUltimoAcesso;
+                break;
+            }
+            listaED = listaED->proximo;
+        }
+
         GtkTreeIter iter;
         gtk_list_store_append(widgets->liststore1, &iter);
-        gtk_list_store_set(widgets->liststore1, &iter, 0, conteudo[i], 1, "teste", 2, "teste", 3, "teste", -1);
+        gtk_list_store_set(widgets->liststore1, &iter, 0, conteudo[i], 1, dataCriacao, 2, dataModificacao, 3, dataAcesso, -1);
     }
-    gtk_stack_set_visible_child_name(widgets->stack, "principal");
 }
 
 void on_button_iniciar_clicked(GtkWidget *bt_inciar, void *data){
@@ -84,20 +95,17 @@ void on_button_iniciar_clicked(GtkWidget *bt_inciar, void *data){
     sistemaArquivo = inicializaSistemaArquivo(10, 4096);
 
     paginaAnterior = "inicial";
-    //entrarDiretorio(&sistemaArquivo, "raiz");
     
     criarDiretorio(&sistemaArquivo, "teste1");
     criarDiretorio(&sistemaArquivo, "dir1");
     
-    //ListaBlocoConteudo *listaBloco = criarArquivo(&sistemaArquivo, "batata");
-    
-    //printf("teste 1\n");
-    //inserirConteudoArquivo(&sistemaArquivo, listaBloco, "lepo");
-    //printf("teste 2\n");
-    
+    BlocoConteudo **blocoConteudo;
+    blocoConteudo = criarArquivo(&sistemaArquivo, "Arquivo01");
+    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
+    inserirConteudoArquivo(&sistemaArquivo, blocoConteudo, "Give me more points, please!");
+
     atualizarTabelaPrincipal(widgets);
     
-    printf("teste 3\n");
     gtk_stack_set_visible_child_name(widgets->stack, "principal");
 }
 
@@ -121,8 +129,6 @@ void on_voltar_principal_clicked(GtkWidget *bt_criar, void *data){
 
 void on_button_edit_clicked(GtkWidget *bt_edit, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
-    
-    //logica
 
     // Lógica para editar um arquivo
     GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(widgets->treeview));
@@ -160,54 +166,76 @@ void on_button_edit_clicked(GtkWidget *bt_edit, void *data){
 void on_button_list_clicked(GtkWidget *bt_list, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
     
-    //logica
-
-    // Definir o texto no buffer
-    const gchar *text = "Olá, mundo!";
-    gtk_text_buffer_set_text(widgets->buffer_arquivo, text, -1);
+    // Lógica para editar um arquivo
+    GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(widgets->treeview));
+    GtkTreeModel *model;
+    GtkTreeIter iter;
 
     paginaAnterior = "principal";
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+        char *nomeArquivo;
+        gchar *dataCriacao;
+        gchar *dataModificacao;
+        gchar *dataAcesso;
 
-    gtk_stack_set_visible_child_name(widgets->stack, "listarArquivo");
+        gtk_tree_model_get(model, &iter, 0, &nomeArquivo, 1, &dataCriacao, 2, &dataModificacao, 3, &dataAcesso, -1);
+        removerUltimoCaractere(nomeArquivo);
+
+        int enderecoAtualINode;
+        enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo.navegacaoDiretorio);
+        ListaEntradaDiretorio *listaED;
+        listaED = (sistemaArquivo.listaINode[enderecoAtualINode]->listaED);
+        while (listaED != NULL){
+            if(strcmp(listaED->entradaDiretorio.nome, nomeArquivo) == 0){                
+                if(listaED->entradaDiretorio.tipo == arquivo){
+                    char *text = listarConteudoArquivo(&sistemaArquivo, nomeArquivo);
+                    gtk_text_buffer_set_text(widgets->buffer_arquivo, text, -1);
+                    gtk_stack_set_visible_child_name(widgets->stack, "listarArquivo");
+                    break;
+                }else{
+                    /*int enderecoINode = listaED->entradaDiretorio.enderecoINode;
+                    INode *iNode = sistemaArquivo.listaINode[enderecoINode];
+                    iNode->listaED->entradaDiretorio.nome;*/
+                    entrarDiretorio(&sistemaArquivo, nomeArquivo);
+                    atualizarTabelaPrincipal(widgets);
+                    break;
+                }
+            }
+            listaED = listaED->proximo;
+        }
+
+        g_free(nomeArquivo);
+        g_free(dataCriacao);
+        g_free(dataModificacao);
+        g_free(dataAcesso);
+    }
 }
 
 
 void on_main_destroy(GtkWidget *bt_close, void *data){
-    AppWidgets *widgets = (AppWidgets *)data;
-    
-    //logica
 
-    //gtk_stack_set_visible_child_name(widgets->stack, "inicial");
 }
 
 void on_voltar_listar_clicked(GtkWidget *bt_voltar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
-    
-    //logica
 
     gtk_stack_set_visible_child_name(widgets->stack, paginaAnterior);
 }
 
 void on_button_voltar_clicked(GtkWidget *bt_voltar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
-    
-    //logica
 
     gtk_stack_set_visible_child_name(widgets->stack, paginaAnterior);
 }
 
 void on_voltar_editar_clicked(GtkWidget *bt_voltar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
-    
-    //logica
 
     gtk_stack_set_visible_child_name(widgets->stack, paginaAnterior);
 }
 
 void on_voltar_iterativo_clicked(GtkWidget *bt_voltar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
-    
-    //logica
 
     gtk_stack_set_visible_child_name(widgets->stack, paginaAnterior);
 }
@@ -215,8 +243,6 @@ void on_voltar_iterativo_clicked(GtkWidget *bt_voltar, void *data){
 void on_button_iterative_clicked(GtkWidget *bt_voltar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
     
-    //logica
-
     paginaAnterior = "principal";
 
     gtk_stack_set_visible_child_name(widgets->stack, "iterativo");
@@ -234,6 +260,8 @@ void on_button_delete_clicked(GtkWidget *bt_voltar, void *data){
         gchar *nomeDiretorio;
         gtk_tree_model_get(model, &iter, 0, &nomeDiretorio, -1);
 
+        removerUltimoCaractere(nomeDiretorio);
+
         if(apagarDiretorio(&sistemaArquivo, nomeDiretorio)){
             printf("Diretório %s removido\n", nomeDiretorio);
         }
@@ -242,8 +270,7 @@ void on_button_delete_clicked(GtkWidget *bt_voltar, void *data){
             printf("Arquivo %s removido\n", nomeDiretorio);
         }
 
-        // Remova o diretório do modelo de dados
-        gtk_list_store_remove(widgets->liststore1, &iter);
+        atualizarTabelaPrincipal(widgets);
 
         g_free(nomeDiretorio);
     }
@@ -321,17 +348,13 @@ void on_button_salvar_editar_clicked(GtkWidget *bt_confirma, void *data) {
         gchar *dataModificacao;
         gchar *dataAcesso;
 
-        if(renomearDiretorio(&sistemaArquivo, entryNome, nomeArquivo)){
-            printf("Diretório %s renomeado para %s\n", nomeArquivo, entryNome);
-        }
-
-        if(renomearArquivo(&sistemaArquivo, entryNome, nomeArquivo)){
-            printf("Arquivo %s renomeado para %s\n", nomeArquivo, entryNome);
-        }
-
         gtk_tree_model_get(model, &iter, 0, &nomeArquivo, 1, &dataCriacao, 2, &dataModificacao, 3, &dataAcesso, -1);
 
-        gtk_list_store_set(GTK_LIST_STORE(model), &iter, 0, entryNome, 1, dataCriacao, 2, obterDataAtual(), 3, dataAcesso, -1);
+        if(renomearDiretorio(&sistemaArquivo, entryNome, nomeArquivo)){
+            printf("Diretório ou Arquivo %s renomeado para %s\n", nomeArquivo, entryNome);
+        }
+
+        atualizarTabelaPrincipal(widgets);
 
         g_free(nomeArquivo);
         g_free(dataCriacao);
@@ -348,18 +371,19 @@ void on_button_salvar_clicked(GtkWidget *bt_confirma, void *data) {
     const char *nome = gtk_entry_get_text(GTK_ENTRY(widgets->entry_nome_arquivo));
     const char *conteudo = gtk_entry_get_text(GTK_ENTRY(widgets->entry_conteudo));
 
-    size_t tamanho = strlen(nome) + 1;
+    size_t tamanhoNome = strlen(nome) + 1;
+    char* novoNome = (char*)malloc(tamanhoNome * sizeof(char));
+    strncpy(novoNome, nome, tamanhoNome);
 
-    char* novaString = (char*)malloc(tamanho * sizeof(char));
+    size_t tamanhoConteudo = strlen(conteudo) + 1;
+    char* novaConteudo = (char*)malloc(tamanhoConteudo * sizeof(char));
+    strncpy(novaConteudo, conteudo, tamanhoConteudo);
 
-    strncpy(novaString, nome, tamanho);
+    BlocoConteudo **blocoConteudo;
+    blocoConteudo = criarArquivo(&sistemaArquivo, novoNome);
+    inserirConteudoArquivo(&sistemaArquivo, blocoConteudo, novaConteudo);
 
-    criarArquivo(&sistemaArquivo, novaString);
-    //inserirConteudoArquivo(SistemaArquivo *sistemaArquivo, ListaBlocoConteudo *listaBlocoConteudo, char *conteudo);
-
-    GtkTreeIter iter;
-    gtk_list_store_append(widgets->liststore1, &iter);
-    gtk_list_store_set(widgets->liststore1, &iter, 0, novaString, 1, "hoje", 2, "hoje", 3, "hoje", -1);
+    atualizarTabelaPrincipal(widgets);
         
     gtk_stack_set_visible_child_name(widgets->stack, "principal");
 }
