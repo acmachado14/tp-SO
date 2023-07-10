@@ -16,8 +16,8 @@ void deletarArquivo(char *nomeArquivo, bool sucesso) {
     }   
 }
 
-void listarDiretorio(char *diretorio) {
-    printf("Listando diretório: %s\n", diretorio);
+void listarConteudoArquivo(char *arquivo) {
+    printf("Listando conteúdo do arquivo: %s\n", diretorio);
     // Implemente a lógica para listar um diretório com o nome fornecido
 }
 
@@ -47,6 +47,11 @@ void renomearArquivo(char *nomeArquivo, char *novoNomeArquivo, bool sucesso) {
 
 void moverArquivo(char *nomeArquivo, char *diretorioAtual, char *novoDiretorio) {
     printf("Movendo arquivo: %s de %s para %s\n", nomeArquivo, diretorioAtual, novoDiretorio);
+}
+
+void listarConteudoDiretorio(char *diretorio) {
+    printf("Listando conteúdo do arquivo: %s\n", diretorio);
+    // Implemente a lógica para listar um diretório com o nome fornecido
 }
 
 
@@ -84,11 +89,36 @@ int leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     bool sucesso =  apagarArquivo(sistemaArquivo,&parametro1);
                     deletarArquivo(parametro1, sucesso);
                 }
-            } else if (strcmp(comando, "list") == 0 || strcmp(comando, "List") == 0) {
+            } else if (strcmp(comando, "listfile") == 0 || strcmp(comando, "Listfile") == 0) {
                 token = strtok(NULL, " \t\n");
                 if (token != NULL) {
-                    strcpy(parametro1, token); //TODO: tipo de lista de diretorios?
-                    listarDiretorio(parametro1);
+                    strcpy(parametro1, token); //TODO: listar conteudo do arquivo
+                    listarConteudoArquivo(parametro1);
+                }
+             } else if (strcmp(comando, "movefile") == 0 || strcmp(comando, "Movefile") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    token = strtok(NULL, " \t\n");
+                    if (token != NULL) {
+                        strcpy(parametro2, token);
+                        if (token != NULL) {
+                            strcpy(parametro3, token);
+                            //TODO: função que le caminho do diretorio e retorna o ListaEntradaDiretorio
+                            moverArquivo(parametro1, parametro2, parametro3);
+                        }
+                    }
+                } 
+            } else if (strcmp(comando, "renamefile") == 0 || strcmp(comando, "Renamefile") == 0) {
+                token = strtok(NULL, " \t\n");
+                if (token != NULL) {
+                    strcpy(parametro1, token);
+                    token = strtok(NULL, " \t\n");
+                    if (token != NULL) {
+                        strcpy(parametro2, token);
+                        bool sucesso = renomearArquivo(sistemaArquivo, &parametro1, &parametro2);
+                        renomearArquivo(parametro1, parametro2, sucesso);
+                    }
                 }
             } else if (strcmp(comando, "createdir") == 0 || strcmp(comando, "Createdir") == 0) {
                 token = strtok(NULL, " \t\n");
@@ -115,32 +145,13 @@ int leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     bool sucesso = apagarDiretorio(sistemaArquivo, &parametro1);
                     apagarDiretorio(parametro1, sucesso);
                 }
-            } else if (strcmp(comando, "renamefile") == 0 || strcmp(comando, "Renamefile") == 0) {
+            } else if (strcmp(comando, "listdir") == 0 || strcmp(comando, "Listdir") == 0) {
                 token = strtok(NULL, " \t\n");
                 if (token != NULL) {
-                    strcpy(parametro1, token);
-                    token = strtok(NULL, " \t\n");
-                    if (token != NULL) {
-                        strcpy(parametro2, token);
-                        bool sucesso = renomearArquivo(sistemaArquivo, &parametro1, &parametro2);
-                        renomearArquivo(parametro1, parametro2, sucesso);
-                    }
+                    strcpy(parametro1, token); //TODO: listar conteudo do arquivo
+                    listarConteudoDiretorio(parametro1);
                 }
-            } else if (strcmp(comando, "movefile") == 0 || strcmp(comando, "Movefile") == 0) {
-                token = strtok(NULL, " \t\n");
-                if (token != NULL) {
-                    strcpy(parametro1, token);
-                    token = strtok(NULL, " \t\n");
-                    if (token != NULL) {
-                        strcpy(parametro2, token);
-                        if (token != NULL) {
-                            strcpy(parametro3, token);
-                            //TODO: parametro listaEntradaDiretorio, receber de fora da função ou criar?
-                            moverArquivo(parametro1, parametro2, parametro3);
-                        }
-                    }
-                }
-            }
+             }
         }
     }
 
