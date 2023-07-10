@@ -7,10 +7,8 @@ INode* criaINodeArquivo(){
     iNode->quantidadeArmazena = 0;
     iNode->enumINode = blocoConteudo;
     iNode->atributos = criaAtributo();
-    //iNode->listaBC = NULL;
     iNode->blocoConteudo = NULL;
     iNode->listaED = NULL;
-    //iNode->armazena.listaBC = NULL;
     return iNode;
 }
 
@@ -21,10 +19,8 @@ INode* criaINodeDiretorio(){
     iNode->quantidadeArmazena = 0;
     iNode->enumINode = entradaDiretorio;
     iNode->atributos = criaAtributo();
-    //iNode->listaBC = NULL;
     iNode->blocoConteudo = NULL;
     iNode->listaED = NULL;
-    //iNode->armazena.listaED = NULL;
     return iNode;
 }
 
@@ -61,15 +57,19 @@ void adicionaEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDireto
     aux->enderecoINodeAtual = enderecoINode;
 }
 
-void apagarEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio){
-    apontadorNavegacaoDiretorio aux;
-    aux = navegacaoDiretorio->proximo;
-    while (aux->proximo != NULL){
-        aux = aux->proximo;
-        navegacaoDiretorio = navegacaoDiretorio->proximo;
+void apagarEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio) {
+    if (navegacaoDiretorio == NULL) {
+        return;
     }
-    free(navegacaoDiretorio->proximo);
-    navegacaoDiretorio->proximo = NULL;
+    if (navegacaoDiretorio->proximo == NULL) {
+        return;
+    }
+    NavegacaoDiretorio* current = navegacaoDiretorio;
+    while (current->proximo->proximo != NULL) {
+        current = current->proximo;
+    }
+    free(current->proximo);
+    current->proximo = NULL;
 }
 
 int getUltimoEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio){
