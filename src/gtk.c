@@ -1,5 +1,5 @@
 #include "Headers/gtk.h"
-#include "Headers/LeituraIterativa.h"
+#include "Headers/SistemaArquivo.h"
 
 char *paginaAnterior;
 SistemaArquivo sistemaArquivo;
@@ -221,6 +221,7 @@ void on_main_destroy(GtkWidget *bt_close, void *data){
 void on_voltar_listar_clicked(GtkWidget *bt_voltar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
 
+    atualizarTabelaPrincipal(widgets);
     gtk_stack_set_visible_child_name(widgets->stack, paginaAnterior);
 }
 
@@ -239,6 +240,7 @@ void on_voltar_editar_clicked(GtkWidget *bt_voltar, void *data){
 void on_voltar_iterativo_clicked(GtkWidget *bt_voltar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
 
+    atualizarTabelaPrincipal(widgets);
     gtk_stack_set_visible_child_name(widgets->stack, paginaAnterior);
 }
 
@@ -247,6 +249,7 @@ void on_button_iterative_clicked(GtkWidget *bt_voltar, void *data){
     
     paginaAnterior = "principal";
 
+    atualizarTabelaPrincipal(widgets);
     gtk_stack_set_visible_child_name(widgets->stack, "iterativo");
 }
 
