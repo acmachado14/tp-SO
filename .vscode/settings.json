@@ -1,9 +1,10 @@
 {
     "files.associations": {
-        "gtk.h": "c",
-        "arquivo.h": "c",
-        "string.h": "c",
-        "inode.h": "c",
-        "sistemaarquivo.h": "c"
+        "*.html": "html",
+        "**/templates/*.html": "django-html",
+        "**/templates/*": "django-txt",
+        "**/requirements{/**,*}.{txt,in}": "pip-requirements",
+        "stdlib.h": "c",
+        "cmath": "c"
     }
 }

@@ -42,7 +42,7 @@ void liberarLog(Log *log) {
     free(log);
 }
 
-void criarArquivo(char *nomeArquivo, Log *log) {
+void criarArquivo(char *nomeArquivo,bool sucesso, Log *log) {
     adicionarMensagem(log, "Criando arquivo: %s\n", nomeArquivo);
 }
 
@@ -118,6 +118,16 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                 token = strtok(NULL, " \t\n");
                 if (token != NULL) {
                     strcpy(parametro1, token);
+                    token = strtok(NULL, " \t\n");
+                    if (token != NULL) {
+                            strcpy(parametro2, token);
+                            BlocoConteudo ** blocoConteudo = criarArquivo(sistemaArquivo, &parametro1);
+                            if (blocoConteudo != NULL) {
+                                inserirConteudoArquivo(sistemaArquivo, blocoConteudo, &parametro2);
+                                criarArquivo(parametro1, true, log);
+                            } else {
+                                criarArquivo(parametro1, false, log);
+                            }
                     //TODO: fazer bolocoConteudo aqui ou receber como parametro?
                 }
             } else if (strcmp(comando, "deletefile") == 0 || strcmp(comando, "Delete") == 0) {
@@ -145,6 +155,7 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     token = strtok(NULL, " \t\n");
                     if (token != NULL) {
                         strcpy(parametro2, token);
+                        token = strtok(NULL, " \t\n");
                         if (token != NULL) {
                             strcpy(parametro3, token);
                             //TODO: função que le caminho do diretorio e retorna o ListaEntradaDiretorio
