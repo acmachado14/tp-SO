@@ -122,9 +122,14 @@ void on_button_create_clicked(GtkWidget *bt_criar, void *data){
 void on_voltar_principal_clicked(GtkWidget *bt_criar, void *data){
     AppWidgets *widgets = (AppWidgets *)data;
     
-    //logica
-
-    gtk_stack_set_visible_child_name(widgets->stack, paginaAnterior);
+    int enderecoAtualINode;
+    enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo.navegacaoDiretorio);
+    ListaEntradaDiretorio *listaED;
+    listaED = (sistemaArquivo.listaINode[enderecoAtualINode]->listaED);
+    
+    sairDiretorio(&sistemaArquivo);
+    atualizarTabelaPrincipal(widgets);
+    
 }
 
 void on_button_edit_clicked(GtkWidget *bt_edit, void *data){
@@ -193,9 +198,6 @@ void on_button_list_clicked(GtkWidget *bt_list, void *data){
                     gtk_stack_set_visible_child_name(widgets->stack, "listarArquivo");
                     break;
                 }else{
-                    /*int enderecoINode = listaED->entradaDiretorio.enderecoINode;
-                    INode *iNode = sistemaArquivo.listaINode[enderecoINode];
-                    iNode->listaED->entradaDiretorio.nome;*/
                     entrarDiretorio(&sistemaArquivo, nomeArquivo);
                     atualizarTabelaPrincipal(widgets);
                     break;
