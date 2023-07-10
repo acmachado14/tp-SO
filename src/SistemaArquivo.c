@@ -29,7 +29,6 @@ SistemaArquivo inicializaSistemaArquivo(int tamanhoParticaoDisco, int tamanhoBlo
     sistemaArquivo.entradaDiretorio = criaEntradaDiretorio(tipo, "/", enderecoINode);
     sistemaArquivo.listaINode[enderecoINode] = criaINodeDiretorio();
     sistemaArquivo.navegacaoDiretorio = criaNavegacaoDiretorio(enderecoINode);
-
     return sistemaArquivo;
 }
 
@@ -60,6 +59,7 @@ void criarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio){
     //char *a = sistemaArquivo->listaINode[enderecoAtualINode]->atributos.dataCriacao;
     //int enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
     //printf("%s\n", getDataCriacao(sistemaArquivo->listaINode[enderecoAtualINode]->atributos));
+    
 
 }
 
@@ -111,6 +111,8 @@ bool apagarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio) {
 char* listarConteudoDiretorio(SistemaArquivo *sistemaArquivo){
     int enderecoAtualINode;
     enderecoAtualINode = getUltimoEnderecoINodeNavegacaoDiretorio(sistemaArquivo->navegacaoDiretorio);
+    
+
     ListaEntradaDiretorio *listaED;
     INode *iNode;
     iNode = sistemaArquivo->listaINode[enderecoAtualINode];
@@ -123,6 +125,7 @@ char* listarConteudoDiretorio(SistemaArquivo *sistemaArquivo){
         strcat(conteudoDiretorio, " \n"); // Adiciona o caractere de nova linha
         listaED = listaED->proximo;
     }
+    printf("\n");
     return conteudoDiretorio;
 }
 

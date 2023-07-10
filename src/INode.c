@@ -52,10 +52,11 @@ NavegacaoDiretorio* criaNavegacaoDiretorio(int enderecoINode){
 void adicionaEnderecoINodeNavegacaoDiretorio(NavegacaoDiretorio *navegacaoDiretorio, int enderecoINode){
     apontadorNavegacaoDiretorio aux;
     aux = navegacaoDiretorio;
-    while (aux != NULL){
+    while (aux->proximo != NULL){
         aux = aux->proximo;
     }
-    aux = (apontadorNavegacaoDiretorio)malloc(sizeof(NavegacaoDiretorio));
+    aux->proximo = (apontadorNavegacaoDiretorio)malloc(sizeof(NavegacaoDiretorio));
+    aux = aux->proximo;
     aux->proximo = NULL;
     aux->enderecoINodeAtual = enderecoINode;
 }

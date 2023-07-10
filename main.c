@@ -10,96 +10,108 @@ int main(int argc, char const *argv[]){
     SistemaArquivo sistemaArquivo;
     sistemaArquivo = inicializaSistemaArquivo(tamanhoParticaoDisco, tamanhoBloco);
     //sleep(2);
-    printf("-----Cria diretorio------\n");
-    criarDiretorio(&sistemaArquivo, "Teste01");
-    printf("---------Lista conteudo diretorio-------\n");
-    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-    criarDiretorio(&sistemaArquivo, "Teste02");
-    criarDiretorio(&sistemaArquivo, "Teste03");
-    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-    printf("----------Criar arquivo-----------\n");
     BlocoConteudo **blocoConteudo;
-    blocoConteudo = criarArquivo(&sistemaArquivo, "Arquivo01");
-    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-    inserirConteudoArquivo(&sistemaArquivo, blocoConteudo, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-    printf("----------Lista Conteudo Arquivo-----------\n");
-    printf("%s\n", listarConteudoArquivo(&sistemaArquivo, "Arquivo01"));
-    /*printf("----------Renomear Arquivo-----------\n");
-     bool a = renomearArquivo(&sistemaArquivo, "Arquivo0000001", "Arquivo01");
-    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-
-    printf("----------Apagar Arquivo-----------\n");
-    bool b = apagarArquivo(&sistemaArquivo, "Arquivo0000001");
-
-    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-
-    printf("----------Renomear Diretorio----------\n");
-    bool c = renomearDiretorio(&sistemaArquivo, "Teste------1", "Teste01");
-    printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-
-    printf("----------Apagar Diretorio-----------\n");
+    ListaEntradaDiretorio *listaEntradaDiretorio;
+    int qualOpcao = 0;
+    bool parar = true;
+    char string1[50];
+    char string2[50];
     
-    bool n = apagarDiretorio(&sistemaArquivo, "Teste------1");
-    printf("\n");
-    printf("%s", listarConteudoDiretorio(&sistemaArquivo));*/
-    //printf("%s\n",  listarConteudoArquivo(&sistemaArquivo, "Arquivo01"));
-    
-    //printf("%s", listarConteudoDiretorio(&sistemaArquivo));
-            //ListaBlocoConteudo* criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquico);
-    //bool parar = true;
-    /*while (parar == false){
-        int qualOpcao = 0;
-        //SistemaArquivo *sistemaArquivo == (&sistemaArquivo)
-        //Entrar em um diretorio
-        //void entrarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
-
-        //Sair de um Diretorio
-        //void sairDiretorio(SistemaArquivo *sistemaArquivo);
+    while (parar == true){
+        printf("\n");
+        printf("1 - Criar diretorio\n");
+        printf("2 - Renomear diretorio\n");
+        printf("3 - Apagar diretorio\n");
+        printf("4 - Lista conteudo diretorio\n");
+        printf("5 - Criar Arquivo\n");
+        printf("6 - Renomear Arquivo\n");
+        printf("7 - Apagar Arquivo\n");
+        printf("8 - Mover Arquivo\n");
+        printf("9 - Lista conteudo arquivo\n");
+        printf("10 - Entrar diretorio\n");
+        printf("11 - Voltar diretorio\n");
+        printf("12 - Sair programa\n");
+        printf("\nDigite um numero inteiro: ");
+        scanf("%d", &qualOpcao);
+        printf("\n");
         switch (qualOpcao) {
         case 1:
-            //criar diretório
-            //void criarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
+            printf("Digite nome diretorio: ");
+            scanf("%s", string1);
+            criarDiretorio(&sistemaArquivo, string1);
+            //sleep(2);
             break;
         case 2:
-            //renomear diretório
-            //bool renomearDiretorio(SistemaArquivo *sistemaArquivo, char *novoNome, char *antigoNome);
+            printf("Digite novo nome diretorio: ");
+            //fgets(string1, sizeof(string1), stdin);
+            scanf("%s", string1);
+            printf("Digite antigo nome diretorio: ");
+            //fgets(string2, sizeof(string2), stdin);
+            scanf("%s", string2);
+            bool a = renomearDiretorio(&sistemaArquivo, string1, string2);
             break;
         case 3:
-            //apagar diretório
-            //bool apagarDiretorio(SistemaArquivo *sistemaArquivo, char *nomeDiretorio);
+            printf("Digite novo nome diretorio: ");
+            //fgets(string1, sizeof(string1), stdin);
+            scanf("%s", string1);
+            bool b = apagarDiretorio(&sistemaArquivo, string1);
             break;
         case 4:
-            //listar conteúdo do diretório
-            //char* listarConteudoDiretorio(SistemaArquivo *sistemaArquivo);
+            printf("%s", listarConteudoDiretorio(&sistemaArquivo));
             break;
         case 5:
-            //criar arquivo
-            //ListaBlocoConteudo* criarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquico);
-            //void inserirConteudoArquivo(SistemaArquivo *sistemaArquivo, ListaBlocoConteudo *listaBlocoConteudo, char *conteudo);
+            printf("Digite nome arquivo: ");
+            //fgets(string1, sizeof(string1), stdin);
+            scanf("%s", string1);
+            blocoConteudo = criarArquivo(&sistemaArquivo, string1);
+            printf("Conteudo arquivo: ");
+            //fgets(string2, sizeof(string2), stdin);
+            scanf("%s", string2);
+            inserirConteudoArquivo(&sistemaArquivo, blocoConteudo, string2);
             break;
         case 6:
-            //renomear arquivo
-            //bool renomearArquivo(SistemaArquivo *sistemaArquivo, char *novoNome, char *antigoNome);
+            printf("Digite novo nome arquivo: ");
+            //fgets(string1, sizeof(string1), stdin);
+            scanf("%s", string1);
+            printf("Digite antigo nome arquivo: ");
+            scanf("%s", string2);
+            //fgets(string2, sizeof(string2), stdin);
+            bool c = renomearArquivo(&sistemaArquivo, string1, string2);
             break;
         case 7:
-            //mover arquivo
-            //ListaEntradaDiretorio* obterEntradaDiretorio(SistemaArquivo *sistemaArquivo, char *nomeArquivo);
-            //void moverArquivo(SistemaArquivo *sistemaArquivo, ListaEntradaDiretorio *listaEntradaDiretorio);
-            break;
+            printf("Digite novo nome arquivo: ");
+            //fgets(string1, sizeof(string1), stdin);
+            scanf("%s", string1);
+            bool d = apagarArquivo(&sistemaArquivo, string1);
         case 8:
-            //apagar arquivo
-            //bool apagarArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquivo);
+            printf("Digite novo nome arquivo: ");
+            //fgets(string1, sizeof(string1), stdin);
+            scanf("%s", string1);
+            listaEntradaDiretorio = obterEntradaDiretorio(&sistemaArquivo, string1);
+            moverArquivo(&sistemaArquivo, listaEntradaDiretorio);
             break;
         case 9:
-            // listar conteúdo do arquivo.
-            //char* listarConteudoArquivo(SistemaArquivo *sistemaArquivo, char *nomeArquivo)
+            printf("Digite novo nome arquivo: ");
+            //fgets(string1, sizeof(string1), stdin);
+            scanf("%s", string1);
+            printf("%s\n",  listarConteudoArquivo(&sistemaArquivo, string1));
+        case 10:
+            printf("Digite novo nome diretorio: ");
+            //fgets(string1, sizeof(string1), stdin);
+            scanf("%s", string1);
+            entrarDiretorio(&sistemaArquivo, string1);
+            break;
+        case 11:
+            sairDiretorio(&sistemaArquivo);
+            break;
+        case 12:
+            parar = false;
             break;
         default:
             parar = false;
             break;
     }
-    }*/
-    
+    }
     
     printf("-------------------------------------------------------------------\n");
     return 0;
