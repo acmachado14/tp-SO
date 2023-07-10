@@ -46,54 +46,54 @@ void liberarLog(Log *log) {
 
 void criarArquivoIterativo(char *nomeArquivo,bool sucesso, Log *log) {
    if (sucesso) {
-        adicionarMensagem(log, "Arquivo %s criado com sucesso\n", nomeArquivo);
+        adicionarMensagem(log, "Arquivo criado com sucesso\n");
     } else {
-        adicionarMensagem(log, "Erro ao criar arquivo %s\n", nomeArquivo);
+        adicionarMensagem(log, "Erro ao criar arquivo \n");
     }
 }
 
 void deletarArquivoIterativo(char *nomeArquivo, bool sucesso, Log *log) {
     if (sucesso) {
-        adicionarMensagem(log, "Arquivo %s deletado com sucesso\n", nomeArquivo);
+        adicionarMensagem(log, "Arquivo deletado com sucesso\n");
     } else {
-        adicionarMensagem(log, "Erro ao deletar arquivo %s\n", nomeArquivo);
+        adicionarMensagem(log, "Erro ao deletar arquivo\n");
     }   
 }
 
 void listarConteudoArquivoIterativo(char *arquivo, Log *log) {
-    adicionarMensagem(log, "Listando conteúdo do arquivo: %s\n", diretorio);
+    adicionarMensagem(log, "Listando conteúdo do arquivo\n");
 }
 
 void criarDiretorioIterativo(char *nomeDiretorio, Log *log) {
-    adicionarMensagem(log, "Criando diretório: %s\n", nomeDiretorio);
+    adicionarMensagem(log, "Criando diretório\n");
 }
 
 void renomearDiretorioIterativo(char *nomeDiretorio, char *novoNomeDiretorio, Log *log) {
-    adicionarMensagem(log, "Renomeando diretório: %s para %s\n", nomeDiretorio, novoNomeDiretorio);
+    adicionarMensagem(log, "Renomeando diretório\n");
 }
 
 void apagarDiretorioIterativo(char *nomeDiretorio, bool sucesso, Log *log) {
     if (sucesso) {
-        adicionarMensagem(log, "Diretório %s apagado com sucesso\n", nomeDiretorio);
+        adicionarMensagem(log, "Diretório apagado com sucesso\n");
     } else {
-        adicionarMensagem(log, "Erro ao apagar diretório %s\n", nomeDiretorio);
+        adicionarMensagem(log, "Erro ao apagar diretório\n");
     }
 }
 
 void renomearArquivoIterativo(char *nomeArquivo, char *novoNomeArquivo, bool sucesso, Log *log) {
     if (sucesso) {
-        adicionarMensagem(log, "Arquivo %s renomeado com sucesso para %s\n", nomeArquivo, novoNomeArquivo);
+        adicionarMensagem(log, "Arquivo renomeado com sucesso\n");
     } else {
-        adicionarMensagem(log, "Erro ao renomear arquivo %s para %s\n", nomeArquivo, novoNomeArquivo);
+        adicionarMensagem(log, "Erro ao renomear arquivo\n");
     }
 }
 
 void moverArquivoIterativo(char *nomeArquivo, Log *log) {
-    adicionarMensagem(log, "Movendo arquivo: %s \n", nomeArquivo);
+    adicionarMensagem(log, "Movendo arquivo \n");
 }
 
 void listarConteudoDiretorioIterativo(char *diretorio, Log *log) {
-    adicionarMensagem(log, "Listando conteúdo do arquivo: %s\n", diretorio);
+    adicionarMensagem(log, "Listando conteúdo do arquivo\n");
 }
 
 
@@ -110,7 +110,6 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
 
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.\n");
-        return 1;
     }
 
     Log *log = criarLog();
@@ -127,20 +126,21 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     token = strtok(NULL, " \t\n");
                     if (token != NULL) {
                             strcpy(parametro2, token);
-                            BlocoConteudo ** blocoConteudo = criarArquivoIterativo(sistemaArquivo, &parametro1);
+                            BlocoConteudo ** blocoConteudo = criarArquivo(sistemaArquivo, parametro1);
                             if (blocoConteudo != NULL) {
-                                inserirConteudoArquivo(sistemaArquivo, blocoConteudo, &parametro2);
+                                inserirConteudoArquivo(sistemaArquivo, blocoConteudo, parametro2);
                                 criarArquivoIterativo(parametro1, true, log);
-                                adicionarMensagem(log, "Conteúdo do arquivo %s: %s\n", parametro1, parametro2);
+                                adicionarMensagem(log, "Conteúdo do arquivo\n");
                             } else {
                                 criarArquivoIterativo(parametro1, false, log);
                             }
+                    }
                 }
             } else if (strcmp(comando, "deletefile") == 0 || strcmp(comando, "Delete") == 0) {
                 token = strtok(NULL, " \t\n");
                 if (token != NULL) {
                     strcpy(parametro1, token);
-                    bool sucesso =  apagarArquivo(sistemaArquivo,&parametro1);
+                    bool sucesso =  apagarArquivo(sistemaArquivo,parametro1);
                     deletarArquivoIterativo(parametro1, sucesso, log);
                 }
             } else if (strcmp(comando, "listfile") == 0 || strcmp(comando, "Listfile") == 0) {
@@ -150,7 +150,7 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     listarConteudoArquivoIterativo(parametro1, log);
                      char *conteudoArquivo;
                      conteudoArquivo = (char*)malloc( 10000 * sizeof(char));
-                     conteudoArquivo = listarConteudoArquivoIterativo(sistemaArquivo, &parametro1);
+                     conteudoArquivo = listarConteudoArquivo(sistemaArquivo, parametro1);
                      adicionarMensagem(log, conteudoArquivo);
                     
                 }
@@ -158,8 +158,8 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                 token = strtok(NULL, " \t\n");
                 if (token != NULL) {
                     strcpy(parametro1, token);
-                    ListaEntradaDiretorio *listaEntradaDiretorio = obterEntradaDiretorio(sistemaArquivo, &parametro1);
-                    moverArquivoIterativo(sistemaArquivo, listaEntradaDiretorio);
+                    ListaEntradaDiretorio *listaEntradaDiretorio = obterEntradaDiretorio(sistemaArquivo, parametro1);
+                    moverArquivo(sistemaArquivo, listaEntradaDiretorio);
                     moverArquivoIterativo(parametro1, log);
                 } 
             } else if (strcmp(comando, "renamefile") == 0 || strcmp(comando, "Renamefile") == 0) {
@@ -169,7 +169,7 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     token = strtok(NULL, " \t\n");
                     if (token != NULL) {
                         strcpy(parametro2, token);
-                        bool sucesso = renomearArquivoIterativo(sistemaArquivo, &parametro1, &parametro2);
+                        bool sucesso = renomearArquivo(sistemaArquivo, parametro1, parametro2);
                         renomearArquivoIterativo(parametro1, parametro2, sucesso, log);
                     }
                 }
@@ -177,7 +177,7 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                 token = strtok(NULL, " \t\n");
                 if (token != NULL) {
                     strcpy(parametro1, token);
-                    criarDiretorioIterativo(sistemaArquivo, &parametro1);
+                    criarDiretorio(sistemaArquivo, parametro1);
                     criarDiretorioIterativo(parametro1, log);
                 }
             } else if (strcmp(comando, "renamedir") == 0 || strcmp(comando, "Renamedir") == 0) {
@@ -187,7 +187,7 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     token = strtok(NULL, " \t\n");
                     if (token != NULL) {
                         strcpy(parametro2, token);
-                        renomearDiretorioIterativo(sistemaArquivo, &parametro1, &parametro2);
+                        renomearDiretorio(sistemaArquivo, parametro1, parametro2);
                         renomearDiretorioIterativo(parametro1, parametro2, log);
                     }
                 }
@@ -195,7 +195,7 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                 token = strtok(NULL, " \t\n");
                 if (token != NULL) {
                     strcpy(parametro1, token);
-                    bool sucesso = apagarDiretorioIterativo(sistemaArquivo, &parametro1);
+                    bool sucesso = apagarDiretorio(sistemaArquivo, parametro1);
                     apagarDiretorioIterativo(parametro1, sucesso, log);
                 }
             } else if (strcmp(comando, "listdir") == 0 || strcmp(comando, "Listdir") == 0) {
@@ -205,7 +205,7 @@ Log * leituraIterativa(SistemaArquivo *sistemaArquivo) {
                     listarConteudoDiretorioIterativo(parametro1, log);
                     char *conteudoDiretorio;
                     conteudoDiretorio = (char*)malloc(1000 * sizeof(char)); 
-                    conteudoDiretorio = listarConteudoDiretorioIterativo(sistemaArquivo, &parametro1);
+                    conteudoDiretorio = listarConteudoDiretorio(sistemaArquivo);
                     adicionarMensagem(log, conteudoDiretorio);
                 }
              }
